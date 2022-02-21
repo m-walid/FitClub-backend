@@ -10,6 +10,16 @@ const verifyToken = (token) => {
   });
 };
 
+const signToken = (payload) => {
+  return new Promise((resolve, reject) => {
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      if (err) return reject(err);
+      return token;
+    });
+  });
+};
+
 module.exports = {
   verifyToken,
+  signToken,
 };
