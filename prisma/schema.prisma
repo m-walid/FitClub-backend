@@ -11,15 +11,22 @@ datasource db {
 }
 
 model Account {
-  id             String          @id @default(uuid())
-  role           Role            @default(TRAINEE)
-  email          String          @unique
-  passwordHash   String
-  firstName      String
-  lastName       String
-  imgUrl         String
-  CoachProfile   CoachProfile?
-  TraineeProfile TraineeProfile?
+  id               String                 @id @default(uuid())
+  role             Role                   @default(TRAINEE)
+  email            String                 @unique
+  passwordHash     String
+  firstName        String
+  lastName         String
+  imgUrl           String
+  coachProfile     CoachProfile?
+  traineeProfile   TraineeProfile?
+  createdPrograms  Program[]
+  joinedPrograms   UserPrograms[]
+  createdExercises Exercise[]
+  createdWorkouts  Workout[]
+  userProgress     UserProgress[]
+  userReviews      ProgramPackageReview[]
+
 }
 
 model CoachProfile {
@@ -36,6 +43,126 @@ model TraineeProfile {
   weight    Int
   height    Int
   goal      Goal
+}
+
+model Program {
+  id                     String            @id @default(uuid())
+  createdBy              Account           @relation(fields: [coachId], references: [id])
+  coachId                String            @unique
+  workoutsNo             Int
+  title                  String
+  description            String
+  category               Category          @default(Beginner)
+  duration               Int
+  imgUrl                 String
+  createdUserPrograms    UserPrograms[] // this line should return the created special programs
+  createdGeneralPrograms ProgramPackage[] // this line should return the created general programs
+  includedWorkouts       ProgramWorkouts[]
+  UserProgress           UserProgress[]
+}
+
+model UserPrograms {
+  program        Program  @relation(fields: [programId], references: [id])
+  programId      String
+  user           Account  @relation(fields: [userId], references: [id])
+  userId         String
+  enrollmentDate DateTime @default(now())
+
+  @@id([programId, userId])
+}
+
+model Exercise {
+  id                 String             @id @default(uuid())
+  title              String
+  description        String
+  videoUrl           String
+  gifUrl             String
+  activeMuscle       ActiveMuscle
+  createdBy          Account            @relation(fields: [coachId], references: [id])
+  coachId            String             @unique
+  includedInWorkouts WorkoutExercises[]
+  UserProgress       UserProgress[]
+}
+
+model Workout {
+  id                 String             @id @default(uuid())
+  createdBy          Account            @relation(fields: [coachId], references: [id])
+  coachId            String             @unique
+  category           Category           @default(Beginner)
+  exerciseNo         Int
+  exercises          WorkoutExercises[]
+  includedInPrograms ProgramWorkouts[]
+  UserProgress       UserProgress[]
+}
+
+model WorkoutExercises {
+  workout    Workout  @relation(fields: [workoutId], references: [id])
+  workoutId  String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String
+  order      Int
+  reps       Int
+  sets       Int
+
+
+  @@id([workoutId, exerciseId])
+}
+
+model ProgramWorkouts {
+  program   Program @relation(fields: [programId], references: [id])
+  programId String
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  workoutId String
+
+
+  @@id([programId, workoutId])
+}
+
+model UserProgress {
+  id              String   @id @default(uuid())
+  userId          String
+  user            Account  @relation(fields: [userId], references: [id])
+  programId       String
+  currentProgram  Program  @relation(fields: [programId], references: [id])
+  workoutId       String
+  currentWorkout  Workout  @relation(fields: [workoutId], references: [id])
+  exerciseId      String
+  currentExercise Exercise @relation(fields: [exerciseId], references: [id])
+  updatedAt       DateTime @default(now())
+  dayNo           Int
+  exerciseNo      Int
+}
+
+model ProgramPackage {
+  id             String                 @id @default(uuid())
+  programId      String
+  program        Program                @relation(fields: [programId], references: [id])
+  price          Decimal
+  programReviews ProgramPackageReview[]
+}
+
+model ProgramPackageReview {
+  id               String         @id @default(uuid())
+  userId         String
+  reviewAuthor     Account        @relation(fields: [userId], references: [id])
+  programPackageId String
+  programReview    ProgramPackage @relation(fields: [programPackageId], references: [id])
+  createdAt DateTime @default(now())
+  description String
+  rating Int
+}
+
+enum ActiveMuscle {
+  Biceps
+  Triceps
+  Chest
+  Shoulders
+}
+
+enum Category {
+  Beginner
+  Intermediate
+  Advanced
 }
 
 enum Role {
