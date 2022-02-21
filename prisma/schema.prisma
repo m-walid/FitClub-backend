@@ -11,21 +11,26 @@ datasource db {
 }
 
 model Account {
-  id               String                 @id @default(uuid())
-  role             Role                   @default(TRAINEE)
-  email            String                 @unique
-  passwordHash     String
-  firstName        String
-  lastName         String
-  imgUrl           String
-  coachProfile     CoachProfile?
-  traineeProfile   TraineeProfile?
-  createdPrograms  Program[]
-  joinedPrograms   UserPrograms[]
-  createdExercises Exercise[]
-  createdWorkouts  Workout[]
-  userProgress     UserProgress[]
-  userReviews      ProgramPackageReview[]
+  id                   String                 @id @default(uuid())
+  role                 Role                   @default(TRAINEE)
+  email                String                 @unique
+  passwordHash         String
+  firstName            String
+  lastName             String
+  imgUrl               String
+  coachProfile         CoachProfile?
+  traineeProfile       TraineeProfile?
+  createdPrograms      Program[]
+  joinedPrograms       UserPrograms[]
+  createdExercises     Exercise[]
+  createdWorkouts      Workout[]
+  userProgress         UserProgress[]
+  userToProgramReviews ProgramPackageReview[]
+  coachPackages        CoachPackage[]
+  userSubscriptions    Subscriptions[]        @relation("userSubscriptions")
+  packageCoach         Subscriptions?         @relation("packageCoach")
+  coachReviews         CoachReviews[]         @relation("reviewedCoach")
+  userToCoachReviews   CoachReviews[]         @relation("reviewer")
 
 }
 
@@ -143,10 +148,43 @@ model ProgramPackage {
 
 model ProgramPackageReview {
   id               String         @id @default(uuid())
-  userId         String
+  userId           String
   reviewAuthor     Account        @relation(fields: [userId], references: [id])
   programPackageId String
   programReview    ProgramPackage @relation(fields: [programPackageId], references: [id])
+  createdAt        DateTime       @default(now())
+  description      String
+  rating           Int
+}
+
+model CoachPackage {
+  id            String          @id @default(uuid())
+  coachId       String
+  coach         Account         @relation(fields: [coachId], references: [id])
+  price         Decimal
+  title         String
+  description   String
+  Subscriptions Subscriptions[]
+}
+
+model Subscriptions {
+  id                String       @id @default(uuid())
+  userId            String
+  subscribedUser    Account      @relation("userSubscriptions", fields: [userId], references: [id]) 
+  packageId         String
+  subscribedPackage CoachPackage @relation(fields: [packageId], references: [id])
+  transactionId     String 
+  createdAt         DateTime     @default(now())
+  coachId           String       @unique
+  coach             Account      @relation("packageCoach", fields: [coachId], references: [id])
+}
+
+model CoachReviews {
+  id      String  @id @default(uuid())
+  coachId String
+  coach   Account @relation("reviewedCoach", fields: [coachId], references: [id])
+  userId  String
+  user    Account @relation("reviewer", fields: [userId], references: [id])
   createdAt DateTime @default(now())
   description String
   rating Int
