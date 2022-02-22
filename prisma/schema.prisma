@@ -14,10 +14,10 @@ model Account {
   id                   String                 @id @default(uuid())
   role                 Role                   @default(TRAINEE)
   email                String                 @unique
-  passwordHash         String
+  password             String
   firstName            String
   lastName             String
-  imgUrl               String
+  imgUrl               String?
   coachProfile         CoachProfile?
   traineeProfile       TraineeProfile?
   createdPrograms      Program[]
@@ -170,24 +170,24 @@ model CoachPackage {
 model Subscriptions {
   id                String       @id @default(uuid())
   userId            String
-  subscribedUser    Account      @relation("userSubscriptions", fields: [userId], references: [id]) 
+  subscribedUser    Account      @relation("userSubscriptions", fields: [userId], references: [id])
   packageId         String
   subscribedPackage CoachPackage @relation(fields: [packageId], references: [id])
-  transactionId     String 
+  transactionId     String
   createdAt         DateTime     @default(now())
   coachId           String       @unique
   coach             Account      @relation("packageCoach", fields: [coachId], references: [id])
 }
 
 model CoachReviews {
-  id      String  @id @default(uuid())
-  coachId String
-  coach   Account @relation("reviewedCoach", fields: [coachId], references: [id])
-  userId  String
-  user    Account @relation("reviewer", fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  coachId     String
+  coach       Account  @relation("reviewedCoach", fields: [coachId], references: [id])
+  userId      String
+  user        Account  @relation("reviewer", fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
   description String
-  rating Int
+  rating      Int
 }
 
 enum ActiveMuscle {

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start:dev": "nodemon app.js",
     "prisma:schema:merge": "cat ./prisma/models/*.prisma >> ./prisma/schema.prisma",
     "prisma:migrate": "npm run prisma:schema:merge && npx prisma migrate dev"
   },
@@ -18,9 +19,12 @@
   "dependencies": {
     "@prisma/client": "^3.9.2",
     "bcrypt": "^5.0.1",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-async-handler": "^1.2.0",
+    "fastest-validator": "^1.12.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0"
   }

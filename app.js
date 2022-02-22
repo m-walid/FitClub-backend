@@ -4,6 +4,9 @@ const cors = require("cors");
 require("dotenv").config();
 
 const exceptionHandler = require("./middlewares/exceptionHandler");
+const { authRouter } = require("./routes/authRouter");
+const { logger } = require("./utils/logger");
+const { prisma } = require("./config");
 
 const app = express();
 
@@ -13,14 +16,17 @@ app.use(morgan("dev"));
 app.use(cors());
 
 //routers
+app.use("/api/v1/auth", authRouter);
 
+
+//exception middleware
 app.use(exceptionHandler);
 
 (async () => {
   try {
     await app.listen(process.env.PORT);
-    console.log(`server running on port: ${process.env.PORT}`);
+    logger.info(`server running on port: ${process.env.PORT}`);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 })();

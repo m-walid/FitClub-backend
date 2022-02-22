@@ -1,4 +1,4 @@
-const jwtService = require("../services/jwtService");
+const { jwtService } = require("../services/jwtService");
 const Exception = require("../exceptions/Exception");
 
 module.exports = async (req, res, next) => {

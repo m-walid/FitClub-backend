@@ -1,0 +1,24 @@
+@host = http://localhost:3000/api/v1
+
+// register
+POST {{host}}/auth/register
+content-type: application/json
+
+{
+    "firstName":"john",
+    "lastName":"doe",
+    "email": "test@email.com",
+    "password": "test1234"
+}
+###
+// login
+POST {{host}}/auth/login
+content-type: application/json
+
+{
+    "email": "test@email.com",
+    "password": "test1234"
+}
+
+###
+GET {{host}}/
