@@ -22,8 +22,18 @@ CREATE TABLE "Account" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "imgUrl" TEXT,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Otp" (
+    "accountId" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Otp_pkey" PRIMARY KEY ("accountId")
 );
 
 -- CreateTable
@@ -195,6 +205,9 @@ CREATE UNIQUE INDEX "Workout_coachId_key" ON "Workout"("coachId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Subscriptions_coachId_key" ON "Subscriptions"("coachId");
+
+-- AddForeignKey
+ALTER TABLE "Otp" ADD CONSTRAINT "Otp_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CoachProfile" ADD CONSTRAINT "CoachProfile_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

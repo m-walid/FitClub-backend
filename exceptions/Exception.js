@@ -1,11 +1,9 @@
-const { exceptionType } = require("../utils/enums/exception.enum");
-const { logger } = require("../utils/logger");
-
+const { exceptionCode } = require("../utils/enums/exception.enum");
 module.exports = class Exception extends Error {
-  constructor(message = "Inernal Error", status = 500, errors, type = exceptionType.DEFAULT) {
+  constructor(message = "Inernal Error", status = 500, errors) {
     super(message);
     this.status = status;
     this.errors = errors;
-    this.type = type;
+    this.code = exceptionCode.CUSTOM;
   }
 };

@@ -7,7 +7,7 @@ content-type: application/json
 {
     "firstName":"john",
     "lastName":"doe",
-    "email": "test@email.com",
+    "email": "mohamed.walid1999@gmail.com",
     "password": "test1234"
 }
 ###
@@ -16,8 +16,27 @@ POST {{host}}/auth/login
 content-type: application/json
 
 {
-    "email": "test@email.com",
+    "email": "mohamed.walid1999@gmail.com",
     "password": "test1234"
+}
+
+###
+// verify
+POST {{host}}/auth/verify
+content-type: application/json
+
+{
+    "email": "mohamed.walid1999@gmail.com",
+    "code": "286161"
+}
+
+###
+// send otp
+POST {{host}}/auth/send-otp
+content-type: application/json
+
+{
+    "email": "mohamed.walid1999@gmail.com"
 }
 
 ###

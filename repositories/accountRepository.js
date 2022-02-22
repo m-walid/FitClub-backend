@@ -1,37 +1,75 @@
 const { prisma } = require("../config");
 const Exception = require("../exceptions/Exception");
-const { exceptionType } = require("../utils/enums/exception.enum");
 const { logger } = require("../utils/logger");
+const { generateOTP } = require("../utils/otp");
 
 const addAccount = async (accounntDto) => {
-  try {
-    const account = await prisma.account.create({
-      data: accounntDto,
-    });
-    return account;
-  } catch (error) {
-    throw new Exception("Account already exist");
-  }
+  const account = await prisma.account.create({
+    data: {
+      ...accounntDto,
+      otp: {
+        create: {
+          code: generateOTP(6),
+        },
+      },
+    },
+    include: {
+      otp: true,
+    },
+  });
+  return account;
 };
 
 const getAccountByEmail = async (email) => {
-  try {
-    const account = await prisma.account.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    if (!account) throw new Exception("Couldn't find account", 400, undefined, exceptionType.CUSTOM);
-    return account;
-  } catch (error) {
-    if (error.type !== exceptionType.DEFAULT) throw error;
-    logger.error(error);
-    throw new Exception();
-  }
+  const account = await prisma.account.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  if (!account) throw new Exception("Couldn't find account", 400);
+  return account;
+};
+
+const getAccountByEmailWithOtp = async (email) => {
+  const account = await prisma.account.findUnique({
+    where: {
+      email: email,
+    },
+    include: {
+      otp: true,
+    },
+  });
+  if (!account) throw new Exception("Couldn't find account", 400);
+  return account;
+};
+
+const updateAccountById = async (id, updatedFields) => {
+  const updatedAccount = await prisma.account.update({
+    where: {
+      id: id,
+    },
+    data: updatedFields,
+  });
+  return updatedAccount;
+};
+const updateAccountByEmail = async (email, updatedFields) => {
+  const updatedAccount = await prisma.account.update({
+    where: {
+      email: email,
+    },
+    data: updatedFields,
+    include: {
+      otp: true,
+    },
+  });
+  return updatedAccount;
 };
 
 const accountRepository = {
   addAccount,
   getAccountByEmail,
+  getAccountByEmailWithOtp,
+  updateAccountById,
+  updateAccountByEmail,
 };
 module.exports = { accountRepository };

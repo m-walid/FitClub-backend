@@ -31,7 +31,15 @@ model Account {
   packageCoach         Subscriptions?         @relation("packageCoach")
   coachReviews         CoachReviews[]         @relation("reviewedCoach")
   userToCoachReviews   CoachReviews[]         @relation("reviewer")
+  otp                  Otp?
+  isVerified           Boolean                @default(false)
+}
 
+model Otp {
+  accountId String   @id
+  code      String
+  updatedAt DateTime @updatedAt
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
 model CoachProfile {

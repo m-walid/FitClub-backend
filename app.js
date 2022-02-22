@@ -18,15 +18,10 @@ app.use(cors());
 //routers
 app.use("/api/v1/auth", authRouter);
 
-
 //exception middleware
 app.use(exceptionHandler);
 
 (async () => {
-  try {
-    await app.listen(process.env.PORT);
-    logger.info(`server running on port: ${process.env.PORT}`);
-  } catch (error) {
-    logger.error(error);
-  }
+  await app.listen(process.env.PORT);
+  logger.info(`server running on port: ${process.env.PORT}`);
 })();

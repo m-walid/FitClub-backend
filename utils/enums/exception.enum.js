@@ -1,8 +1,7 @@
-const exceptionType = {
-  DEFAULT: 0,
-  CUSTOM: 1,
+const exceptionCode = {
+  CUSTOM: 69,
 };
 
 module.exports = {
-  exceptionType,
+  exceptionCode,
 };
