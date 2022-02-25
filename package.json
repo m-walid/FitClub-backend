@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "start:dev": "nodemon app.js",
+    "compile": "tsc",
+    "start": "node src/app.ts",
+    "start:dev": "nodemon src/app.ts",
     "prisma:schema:merge": "cat ./prisma/models/*.prisma >> ./prisma/schema.prisma",
     "prisma:migrate": "npm run prisma:schema:merge && npx prisma migrate dev"
   },
@@ -13,14 +14,25 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^17.0.21",
+    "@types/nodemon": "^1.19.1",
     "nodemon": "^2.0.15",
-    "prisma": "^3.9.2"
+    "prisma": "^3.9.2",
+    "ts-node": "^10.5.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@prisma/client": "^3.9.2",
     "@sendgrid/mail": "^7.6.1",
     "bcrypt": "^5.0.1",
     "chalk": "^4.1.2",
+    "class-validator": "^0.13.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
