@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   else {
     try {
       const res = await jwtService.verifyToken(token);
-      req.user = res.data;
+      req.account = res.data;
       next();
     } catch (error) {
       next(new Exception("invalid token please login again", 403));

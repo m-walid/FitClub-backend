@@ -6,8 +6,9 @@ require("dotenv").config();
 const exceptionHandler = require("./middlewares/exceptionHandler");
 const { notFoundHandler } = require("./middlewares/notFound");
 const { authRouter } = require("./routes/authRouter");
+const { traineeRouter } = require("./routes/traineeRouter");
 const { logger } = require("./utils/logger");
-const { prisma } = require("./config");
+
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 //routers
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/trainee", traineeRouter);
 
 //not found middleware
 app.use("/*", notFoundHandler);
