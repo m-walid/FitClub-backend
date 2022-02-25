@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { logger } = require("../utils/logger");
 const verifyToken = (token) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, res) => {

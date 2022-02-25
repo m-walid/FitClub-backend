@@ -1,5 +1,4 @@
 const { exceptionFilter } = require("../exceptions/exceptionFilter");
-const { logger } = require("../utils/logger");
 
 module.exports = (error, request, response, next) => {
   error = exceptionFilter(error);
@@ -11,4 +10,5 @@ module.exports = (error, request, response, next) => {
       // stack: process.env.NODE_ENV === "dev" ? error.stack : null,
     },
   });
+  next();
 };

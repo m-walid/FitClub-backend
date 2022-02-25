@@ -1,6 +1,5 @@
 const { prisma } = require("../config");
 const Exception = require("../exceptions/Exception");
-const { logger } = require("../utils/logger");
 const { generateOTP } = require("../utils/otp");
 
 const addAccount = async (accounntDto) => {

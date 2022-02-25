@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const exceptionHandler = require("./middlewares/exceptionHandler");
+const { notFoundHandler } = require("./middlewares/notFound");
 const { authRouter } = require("./routes/authRouter");
 const { logger } = require("./utils/logger");
 const { prisma } = require("./config");
@@ -18,6 +19,8 @@ app.use(cors());
 //routers
 app.use("/api/v1/auth", authRouter);
 
+//not found middleware
+app.use("/*", notFoundHandler);
 //exception middleware
 app.use(exceptionHandler);
 

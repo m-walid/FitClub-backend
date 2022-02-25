@@ -2,7 +2,7 @@ const { accountRepository } = require("../repositories/accountRepository");
 const { generateOTP } = require("../utils/otp");
 
 const refreshAccountOtp = async (emailBody) => {
-  updatedAccount = await accountRepository.updateAccountByEmail(emailBody.email, {
+  const updatedAccount = await accountRepository.updateAccountByEmail(emailBody.email, {
     otp: {
       update: {
         code: generateOTP(6),

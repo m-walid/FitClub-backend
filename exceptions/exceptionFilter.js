@@ -13,6 +13,7 @@ const exceptionFilter = (error) => {
         return new Exception(`Record to update not found.`, 400);
       case "P2016":
         if (error.meta.details?.includes("Expected a valid parent ID")) return new Exception(`Record to update not found.`, 400);
+      // eslint-disable-next-line no-fallthrough
       default:
         logger.debug("CODE: " + error.code);
         logger.warn(error.stack);

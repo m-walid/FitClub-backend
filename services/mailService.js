@@ -8,7 +8,7 @@ const sendMail = (options) => {
       from: "fitclub.app.team@gmail.com",
       ...options,
     })
-    .then((response) => {
+    .then(() => {
       //   console.log(response[0].statusCode);
       //   console.log(response[0].headers);
     })
@@ -25,7 +25,6 @@ const sendOtpMail = (to, code) => {
     html: `<strong>${code}</strong>`,
   };
   sendMail(msg);
-  logger.debug(msg);
 };
 
 const mailService = { sendOtpMail };
