@@ -44,13 +44,13 @@ model Otp {
 
 model CoachProfile {
   accountId String  @id
-  account   Account @relation(fields: [accountId], references: [id])
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   bio       String
 }
 
 model TraineeProfile {
   accountId String  @id
-  account   Account @relation(fields: [accountId], references: [id])
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   gender    Gender
   age       Int
   weight    Int
@@ -59,18 +59,18 @@ model TraineeProfile {
 }
 
 model Program {
-  id                     String            @id @default(uuid())
-  createdBy              Account           @relation(fields: [coachId], references: [id])
-  coachId                String            @unique
+  id                     String           @id @default(uuid())
+  createdBy              Account          @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  coachId                String           @unique
   workoutsNo             Int
   title                  String
   description            String
-  category               Category          @default(Beginner)
+  category               Category         @default(Beginner)
   duration               Int
   imgUrl                 String
   createdUserPrograms    UserPrograms[] // this line should return the created special programs
   createdGeneralPrograms ProgramPackage[] // this line should return the created general programs
-  includedWorkouts       ProgramWorkouts[]
+  workouts               Workout[]
   UserProgress           UserProgress[]
 }
 
@@ -89,7 +89,7 @@ model Exercise {
   title              String
   description        String
   videoUrl           String
-  gifUrl             String
+  imgUrl             String
   activeMuscle       ActiveMuscle
   createdBy          Account            @relation(fields: [coachId], references: [id])
   coachId            String             @unique
@@ -98,14 +98,17 @@ model Exercise {
 }
 
 model Workout {
-  id                 String             @id @default(uuid())
-  createdBy          Account            @relation(fields: [coachId], references: [id])
-  coachId            String             @unique
-  category           Category           @default(Beginner)
-  exerciseNo         Int
-  exercises          WorkoutExercises[]
-  includedInPrograms ProgramWorkouts[]
-  UserProgress       UserProgress[]
+  id           String             @id @default(uuid())
+  createdBy    Account            @relation(fields: [coachId], references: [id])
+  coachId      String             @unique
+  category     Category           @default(Beginner)
+  exercises    WorkoutExercises[]
+  UserProgress UserProgress[]
+  Program      Program            @relation(fields: [programId], references: [id])
+  programId    String
+  order        Int
+
+  @@unique([programId, order])
 }
 
 model WorkoutExercises {
@@ -117,18 +120,8 @@ model WorkoutExercises {
   reps       Int
   sets       Int
 
-
   @@id([workoutId, exerciseId])
-}
-
-model ProgramWorkouts {
-  program   Program @relation(fields: [programId], references: [id])
-  programId String
-  workout   Workout @relation(fields: [workoutId], references: [id])
-  workoutId String
-
-
-  @@id([programId, workoutId])
+  @@unique([workoutId, order])
 }
 
 model UserProgress {

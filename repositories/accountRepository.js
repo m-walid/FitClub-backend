@@ -28,6 +28,15 @@ const getAccountByEmail = async (email) => {
   if (!account) throw new Exception("Couldn't find account", 400);
   return account;
 };
+const getAccountById = async (id) => {
+  const account = await prisma.account.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!account) throw new Exception("Couldn't find account", 400);
+  return account;
+};
 
 const getAccountByEmailWithOtp = async (email) => {
   const account = await prisma.account.findUnique({
@@ -64,11 +73,19 @@ const updateAccountByEmail = async (email, updatedFields) => {
   return updatedAccount;
 };
 
+const deleteAccount = async (id) => {
+  const deletedAccount = await prisma.account.delete({
+    where: { id: id },
+  });
+  return deletedAccount;
+};
 const accountRepository = {
   addAccount,
   getAccountByEmail,
   getAccountByEmailWithOtp,
   updateAccountById,
   updateAccountByEmail,
+  getAccountById,
+  deleteAccount,
 };
 module.exports = { accountRepository };

@@ -1,0 +1,26 @@
+@host = http://localhost:3000/api/v1
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZGQ3ZTlmOTctOTI0ZS00NDI5LWIzMzktZDIwNGRhOTIzNWRiIiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ1OTAyMzg4fQ.KguMwgh4aBPYUe4wwKzMXvVazGt0nfvRXppTNYHLA6Y
+@id = dd7e9f97-924e-4429-b339-d204da9235db
+
+// get account
+GET {{host}}/accounts/{{id}}
+Authorization: {{token}}
+
+###
+// delete account
+DELETE  {{host}}/accounts/{{id}}
+Authorization: {{token}}
+
+
+
+###
+// update account
+PATCH {{host}}/accounts/{{id}}
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "firstName":"zoz",
+    "lastName":"doe",
+    "imgUrl":"test"
+}

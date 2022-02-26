@@ -15,7 +15,7 @@
   "devDependencies": {
     "eslint": "^8.9.0",
     "nodemon": "^2.0.15",
-    "prisma": "^3.9.2"
+    "prisma": "^3.10.0"
   },
   "dependencies": {
     "@prisma/client": "^3.10.0",

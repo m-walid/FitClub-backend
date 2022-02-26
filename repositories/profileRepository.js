@@ -26,7 +26,10 @@ const updateProfile = async (editBody) => {
     where: {
       accountId: editBody.accountId,
     },
-    data : editBody,
+    data: editBody,
+    include: {
+      account: true,
+    },
   });
   if (!profile) throw new Exception("Couldn't find profile", 400);
   return profile;

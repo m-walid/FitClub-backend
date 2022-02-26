@@ -3,7 +3,7 @@
 @id = e4191bd3-67e3-4ae2-b94c-12f7140d218c
 
 // create trainee profile
-POST {{host}}/trainee
+POST {{host}}/trainees
 content-type: application/json
 Authorization: {{token}}
 
@@ -16,14 +16,14 @@ Authorization: {{token}}
 }
 ###
 // get trainee profile
-GET {{host}}/trainee/{{id}}
+GET {{host}}/trainees/{{id}}
 Authorization: {{token}}
 
 
 
 ###
 // update trainee profile
-PATCH {{host}}/trainee/{{id}}
+PATCH {{host}}/trainees/{{id}}
 content-type: application/json
 Authorization: {{token}}
 

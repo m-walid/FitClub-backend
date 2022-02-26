@@ -5,10 +5,10 @@ require("dotenv").config();
 
 const exceptionHandler = require("./middlewares/exceptionHandler");
 const { notFoundHandler } = require("./middlewares/notFound");
+const { logger } = require("./utils/logger");
 const { authRouter } = require("./routes/authRouter");
 const { traineeRouter } = require("./routes/traineeRouter");
-const { logger } = require("./utils/logger");
-
+const { accountRouter } = require("./routes/accountRouter");
 
 const app = express();
 
@@ -19,7 +19,8 @@ app.use(cors());
 
 //routers
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/trainee", traineeRouter);
+app.use("/api/v1/trainees", traineeRouter);
+app.use("/api/v1/accounts", accountRouter);
 
 //not found middleware
 app.use("/*", notFoundHandler);
