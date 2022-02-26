@@ -20,8 +20,10 @@ const login = async (loginBody) => {
   const passwordHash = await encrypt(loginBody.password);
   if (account.password !== passwordHash) throw new Exception("Invalid password", 400);
   const tokenPayload = {
-    id: account.id,
-    role: account.role,
+    account: {
+      id: account.id,
+      role: account.role,
+    },
   };
   const token = await jwtService.signToken(tokenPayload);
   return { token };
@@ -33,8 +35,10 @@ const verifyAccount = async (verifyBody) => {
   if (account.otp.code !== verifyBody.code || !checkOtpExpValid(account.otp.updatedAt)) throw new Exception("Invalid OTP", 400);
   await accountRepository.updateAccountById(account.id, { isVerified: true });
   const tokenPayload = {
-    id: account.id,
-    role: account.role,
+    account: {
+      id: account.id,
+      role: account.role,
+    },
   };
   const token = await jwtService.signToken(tokenPayload);
   return { token };

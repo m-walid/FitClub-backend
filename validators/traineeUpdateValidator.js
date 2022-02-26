@@ -10,6 +10,7 @@ const schema = {
   height: { type: "number", positive: true, integer: true, optional: true },
   gender: { type: "enum", values: Object.values(gender), optional: true },
   goal: { type: "enum", values: Object.values(goal), optional: true },
+  $$strict: true,
 };
 
 const traineeUpdateValidator = v.compile(schema);

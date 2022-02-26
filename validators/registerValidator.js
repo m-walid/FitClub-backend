@@ -9,6 +9,7 @@ const schema = {
   email: { type: "email" },
   password: { type: "string", min: 8 },
   role: { type: "enum", values: Object.values(roles), optional: true },
+  $$strict: true,
 };
 
 const registerValidator = v.compile(schema);
