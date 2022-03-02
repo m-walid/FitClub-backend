@@ -18,6 +18,8 @@
     "prisma": "^3.10.0"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.53.1",
+    "@aws-sdk/s3-request-presigner": "^3.53.1",
     "@prisma/client": "^3.10.0",
     "@sendgrid/mail": "^7.6.1",
     "bcrypt": "^5.0.1",

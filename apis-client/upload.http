@@ -1,0 +1,6 @@
+@host = http://localhost:3000/api/v1
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZGQ3ZTlmOTctOTI0ZS00NDI5LWIzMzktZDIwNGRhOTIzNWRiIiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ1OTAyMzg4fQ.KguMwgh4aBPYUe4wwKzMXvVazGt0nfvRXppTNYHLA6Y
+
+// get upload url
+GET {{host}}/uploads?num=3
+Authorization: {{token}}

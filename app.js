@@ -9,6 +9,7 @@ const { logger } = require("./utils/logger");
 const { authRouter } = require("./routes/authRouter");
 const { traineeRouter } = require("./routes/traineeRouter");
 const { accountRouter } = require("./routes/accountRouter");
+const { uploadRouter } = require("./routes/uploadRouter");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/trainees", traineeRouter);
 app.use("/api/v1/accounts", accountRouter);
+app.use("/api/v1/uploads", uploadRouter);
 
 //not found middleware
 app.use("/*", notFoundHandler);
