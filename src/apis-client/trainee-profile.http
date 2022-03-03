@@ -1,0 +1,32 @@
+@host = http://localhost:3000/api/v1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZDlhNTFkMzUtOTM5My00Mjc3LTljMDAtZjA1NDliM2M1ZjE5Iiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ2MjczNDI5LCJleHAiOjE2NDY4NzgyMjl9.eVBDahpyO84qseuJkrVOjLq3tfMnRdZWfwHBv2HVPjg
+@id = d9a51d35-9393-4277-9c00-f0549b3c5f19
+
+// create trainee profile
+POST {{host}}/trainees
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "age":18,
+    "weight":60,
+    "height":167,
+    "gender":"MALE",
+    "goal":"FIT"
+}
+###
+// get trainee profile
+GET {{host}}/trainees/{{id}}
+Authorization: {{token}}
+
+
+
+###
+// update trainee profile
+PATCH {{host}}/trainees/{{id}}
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "weight":66
+}

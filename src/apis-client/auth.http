@@ -1,0 +1,43 @@
+@host = http://localhost:3000/api/v1
+
+// register
+POST {{host}}/auth/register
+content-type: application/json
+
+{
+    "firstName":"john",
+    "lastName":"doe",
+    "email": "test@gmail.com",
+    "password": "test1134"
+}
+###
+// login
+POST {{host}}/auth/login
+content-type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "test1134"
+}
+
+###
+// verify
+POST {{host}}/auth/verify
+content-type: application/json
+
+{
+    "email": "mohamed.walid1999@gmail.com",
+    "code": "763355"
+}
+
+###
+// send otp
+POST {{host}}/auth/send-otp
+content-type: application/json
+
+{
+    "email": "mohamed.walid1999@gmail.com"
+}
+
+###
+GET {{host}}/
