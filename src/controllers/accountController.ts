@@ -10,6 +10,7 @@ export default class AccountController {
   static getAccount = asyncHandler(async (req, res) => {
     const accountId = req.params.id;
     const account = await accountRepository.getAccountById(accountId);
+    account.password = null;
     const accountResponse = formatResponse(account);
     res.send(accountResponse);
   });

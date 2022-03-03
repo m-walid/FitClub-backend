@@ -1,6 +1,6 @@
 @host = http://localhost:3000/api/v1
-@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZGQ3ZTlmOTctOTI0ZS00NDI5LWIzMzktZDIwNGRhOTIzNWRiIiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ1OTAyMzg4fQ.KguMwgh4aBPYUe4wwKzMXvVazGt0nfvRXppTNYHLA6Y
-@id = dd7e9f97-924e-4429-b339-d204da9235db
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZDlhNTFkMzUtOTM5My00Mjc3LTljMDAtZjA1NDliM2M1ZjE5Iiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ2MjczNDI5LCJleHAiOjE2NDY4NzgyMjl9.eVBDahpyO84qseuJkrVOjLq3tfMnRdZWfwHBv2HVPjg
+@id = d9a51d35-9393-4277-9c00-f0549b3c5f19
 
 // get account
 GET {{host}}/accounts/{{id}}
