@@ -11,6 +11,7 @@ import authRouter from '@routes/authRouter';
 import traineeRouter from '@routes/traineeRouter';
 import accountRouter from '@routes/accountRouter';
 import uploadRouter from '@routes/uploadRouter';
+import exerciseRouter from './routes/exerciseRouter';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/trainees', traineeRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/uploads', uploadRouter);
+app.use('/api/v1/exercises', exerciseRouter);
 
 //not found middleware
 app.use('/*', notFoundHandler);

@@ -1,7 +1,7 @@
 import { prisma } from '@config';
 import Exception from '@exceptions/Exception';
 
-export default class ProfileRepository {
+export default class TraineeProfileRepository {
   static addProfile = async (profileDto) => {
     const profile = await prisma.traineeProfile.create({
       data: profileDto,

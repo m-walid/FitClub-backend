@@ -7,8 +7,9 @@ content-type: application/json
 {
     "firstName":"john",
     "lastName":"doe",
-    "email": "test@gmail.com",
-    "password": "test1134"
+    "email": "testCoach@gmail.com",
+    "password": "test1134",
+    "role": "COACH"
 }
 ###
 // login
@@ -16,7 +17,7 @@ POST {{host}}/auth/login
 content-type: application/json
 
 {
-    "email": "test@gmail.com",
+    "email": "testCoach@gmail.com",
     "password": "test1134"
 }
 
