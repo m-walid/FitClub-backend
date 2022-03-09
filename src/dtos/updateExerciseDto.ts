@@ -23,7 +23,4 @@ export default class UpdateExerciseDto {
   @IsOptional()
   @IsEnum(ActiveMuscle)
   activeMuscle: ActiveMuscle;
-
-  @Allow()
-  coachId: string;
 }

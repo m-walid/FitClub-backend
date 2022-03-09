@@ -9,6 +9,8 @@ export default function exceptionFilter(error) {
         return error;
       case 'P2002':
         return new Exception(`${error.meta['target'][0]} should be unique`, 400);
+      case 'P2003':
+        return new Exception(`${error.meta['field_name'].split('_')[1]} is not valid`, 400);
       case 'P2025':
         return new Exception(`Record to update not found.`, 400);
       case 'P2016':

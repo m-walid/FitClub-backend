@@ -11,6 +11,9 @@
     "prisma:schema:merge": "cat ./prisma/models/*.prisma >> ./prisma/schema.prisma",
     "prisma:migrate": "npm run prisma:schema:merge && npx prisma migrate dev"
   },
+  "prisma":{
+    "schema":"src/prisma/schema.prisma"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
