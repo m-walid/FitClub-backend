@@ -15,14 +15,32 @@ export default class coachReviewRepository {
       where: {
         id: reviewId,
       },
+      include: {
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            imgUrl: true,
+          },
+        },
+      },
     });
-    if (!review) throw new Exception('Exercise not found');
+    if (!review) throw new Exception('Review not found');
     return review;
   };
   static getReviewsByAccountId = async (accountId: string) => {
     const reviews = await prisma.coachReviews.findMany({
       where: {
         coachId: accountId,
+      },
+      include: {
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            imgUrl: true,
+          },
+        },
       },
     });
     return reviews;

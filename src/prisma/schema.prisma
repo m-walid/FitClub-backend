@@ -140,11 +140,11 @@ model UserProgress {
 }
 
 model ProgramPackage {
-  id             String                 @id @default(uuid())
-  programId      String
-  program        Program                @relation(fields: [programId], references: [id])
-  price          Decimal
-  programReviews ProgramPackageReview[]
+  id                    String                 @id @default(uuid())
+  programId             String
+  program               Program                @relation(fields: [programId], references: [id])
+  price                 Decimal
+  programPackageReviews ProgramPackageReview[]
 }
 
 model ProgramPackageReview {
@@ -152,10 +152,12 @@ model ProgramPackageReview {
   userId           String
   reviewAuthor     Account        @relation(fields: [userId], references: [id])
   programPackageId String
-  programReview    ProgramPackage @relation(fields: [programPackageId], references: [id])
+  programPackage   ProgramPackage @relation(fields: [programPackageId], references: [id])
   createdAt        DateTime       @default(now())
   description      String
   rating           Int
+
+  @@unique([userId, programPackageId])
 }
 
 model CoachPackage {
@@ -189,6 +191,8 @@ model CoachReviews {
   createdAt   DateTime @default(now())
   description String
   rating      Int
+
+  @@unique([userId, coachId])
 }
 
 enum ActiveMuscle {

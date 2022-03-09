@@ -2,9 +2,9 @@ import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export default class coachUpdateDto {
   @IsString()
-  @MinLength(2)
+  @MinLength(20)
   @IsOptional()
-  firstName: string;
+  bio: string;
 
   @IsOptional()
   accountId: string;

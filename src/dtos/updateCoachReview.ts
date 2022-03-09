@@ -1,10 +1,6 @@
-import { Allow, IsDate, IsInt, IsPositive, IsString, MinLength, IsOptional } from 'class-validator';
+import { Allow, IsDate, IsInt, IsPositive, IsString, MinLength, IsOptional, Max } from 'class-validator';
 
 export default class UpdateCoachReview {
-  @IsDate()
-  @IsOptional()
-  createdAt: Date;
-
   @IsString()
   @MinLength(10)
   @IsOptional()
@@ -12,10 +8,7 @@ export default class UpdateCoachReview {
 
   @IsInt()
   @IsPositive()
+  @Max(5)
   @IsOptional()
   rating: number;
-
-  @Allow()
-  coachId: string;
-  userId: string;
 }

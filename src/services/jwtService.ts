@@ -1,4 +1,3 @@
-import { jwtAccountPayload } from '@/interfaces/authInterface';
 import jwt from 'jsonwebtoken';
 
 export default class JwtService {

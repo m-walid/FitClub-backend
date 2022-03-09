@@ -9,6 +9,7 @@ import CoachUpdateDto from '@/dtos/coachUpdateDto';
 import CoachReviewService from '@/services/coachReviewService';
 import CreateCoachReview from '@/dtos/createCoachReview';
 import UpdateCoachReview from '@/dtos/updateCoachReview';
+import ExerciseService from '@/services/exerciseService';
 
 export default class CoachController {
   static addCoach = asyncHandler(async (req: RequestWithAccount, res) => {
@@ -45,7 +46,8 @@ export default class CoachController {
   static postReview = asyncHandler(async (req: RequestWithAccount, res) => {
     const coachReviewDto: CreateCoachReview = req.body;
     await validateDto(CreateCoachReview, coachReviewDto);
-    coachReviewDto.coachId = req.account.id;
+    coachReviewDto.coachId = req.params.id;
+    coachReviewDto.userId = req.account.id;
     const createdReview = await CoachReviewService.addReview(coachReviewDto);
     res.send(formatResponse(createdReview));
   });
@@ -64,5 +66,12 @@ export default class CoachController {
     if (review.userId !== req.account.id) throw new UnauthorizedException();
     const deletedReview = await CoachReviewService.deleteReview(reviewId);
     res.send(formatResponse(deletedReview));
+  });
+
+  static getExercises = asyncHandler(async (req: RequestWithAccount, res) => {
+    const accountId = req.params.id;
+    if (accountId !== req.account.id) throw new UnauthorizedException();
+    const exercises = await ExerciseService.getExercises(req.account.id);
+    res.send(formatResponse(exercises));
   });
 }

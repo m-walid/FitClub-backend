@@ -1,11 +1,9 @@
-import CreateExerciseDto from '@/dtos/createExerciseDto';
+import CreateCoachReview from '@/dtos/createCoachReview';
 import UpdateCoachReview from '@/dtos/updateCoachReview';
-import UpdateExerciseDto from '@/dtos/updateExerciseDto';
 import coachReviewRepository from '@/repositories/coachReviewRepository';
-import ExerciseRepository from '@/repositories/exerciseRepository';
 
 export default class CoachReviewService {
-  static addReview = async (reviewDto: UpdateCoachReview) => {
+  static addReview = async (reviewDto: CreateCoachReview) => {
     return await coachReviewRepository.addReviewByAccountId(reviewDto);
   };
   static getReview = async (reviewId: string) => {

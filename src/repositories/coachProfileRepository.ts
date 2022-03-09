@@ -19,6 +19,7 @@ export default class CoachProfileRepository {
       },
     });
     if (!profile) throw new Exception("Couldn't find profile", 400);
+    profile.account.password = null;
     return profile;
   };
 
@@ -33,6 +34,7 @@ export default class CoachProfileRepository {
       },
     });
     if (!profile) throw new Exception("Couldn't find profile", 400);
+    profile.account.password = null;
     return profile;
   };
 }
