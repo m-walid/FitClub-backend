@@ -2,11 +2,12 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
+require('dotenv').config({
+  path: `./${process.env.NODE_ENV || 'test'}.env`,
+});
 
 import exceptionHandler from '@middlewares/exceptionHandler';
 import notFoundHandler from '@middlewares/notFound';
-import { logger } from '@utils/logger';
 import authRouter from '@routes/authRouter';
 import traineeRouter from '@routes/traineeRouter';
 import accountRouter from '@routes/accountRouter';
@@ -34,7 +35,4 @@ app.use('/*', notFoundHandler);
 //exception middleware
 app.use(exceptionHandler);
 
-(async () => {
-  await app.listen(process.env.PORT);
-  logger.info(`server running on port: ${process.env.PORT}`);
-})();
+export default app;

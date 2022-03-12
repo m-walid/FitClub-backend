@@ -1,4 +1,4 @@
-import { Allow, IsDate, IsInt, IsPositive, IsString, Max, MinLength } from 'class-validator';
+import { Allow, IsInt, IsPositive, IsString, Max, MinLength } from 'class-validator';
 
 export default class CreateCoachReview {
   @IsString()
