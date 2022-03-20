@@ -1,0 +1,165 @@
+@host = http://localhost:3000/api/v1
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiYzBjZTdiMmItMzhjYi00MzJhLWE4NWYtMjcxNDc2YzM4MzNmIiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY0NzYzMTIwOSwiZXhwIjoxNjQ4MjM2MDA5fQ.1VlPgaefEjINUWXGCxTSYmPWS99udBxETHxn8VOd7iY
+
+@programId =cad3dff7-c735-47ee-a9d3-6debdb43252a
+###
+// post program
+POST {{host}}/programs/
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "title":"Test Program",              
+    "description":"lorem sadkljferijflksf",                
+    "imgUrl":"test",         
+    "weeks":[
+        {
+            "order":1,
+            "days":[
+                {
+                    "order":1,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                },
+                {
+                    "order":2,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                }
+
+            ]
+        },
+        {
+            "order":2,
+            "days":[
+                {
+                    "order":1,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                },
+                {
+                    "order":2,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                }
+
+            ]
+        }
+    ]
+}
+###
+// update program
+PATCH {{host}}/programs/{{programId}}
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "title":"Test Program update",              
+    "description":"lorem sadkljferijflksf",                
+    "imgUrl":"test",         
+    "weeks":[
+        {
+            "order":4,
+            "days":[
+                {
+                    "order":3,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                },
+                {
+                    "order":1,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                },
+                {
+                    "order":4,
+                    "exercises":[
+                        {
+                            "order":2,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                }
+
+            ]
+        },
+        {
+            "order":2,
+            "days":[
+                {
+                    "order":1,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                },
+                {
+                    "order":2,
+                    "exercises":[
+                        {
+                            "order":1,
+                            "reps":5,
+                            "sets":10,
+                            "exerciseId":"298bd121-1e89-4358-9b46-27dcaf4fca86"
+                        }
+                    ]
+                }
+
+            ]
+        }
+    ]
+}
+
+
+###
+// get program
+GET {{host}}/programs/{{programId}}
+content-type: application/json
+Authorization: {{token}}
+###
+// delete program
+DELETE {{host}}/programs/{{programId}}
+content-type: application/json
+Authorization: {{token}}

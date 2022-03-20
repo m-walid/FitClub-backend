@@ -23,7 +23,6 @@ model Account {
   createdPrograms      Program[]
   joinedPrograms       UserPrograms[]
   createdExercises     Exercise[]
-  createdWorkouts      Workout[]
   userProgress         UserProgress[]
   userToProgramReviews ProgramPackageReview[]
   coachPackages        CoachPackage[]
@@ -61,8 +60,7 @@ model TraineeProfile {
 model Program {
   id                     String           @id @default(uuid())
   createdBy              Account          @relation(fields: [coachId], references: [id], onDelete: Cascade)
-  coachId                String           @unique
-  workoutsNo             Int
+  coachId                String          
   title                  String
   description            String
   category               Category         @default(Beginner)
@@ -70,7 +68,7 @@ model Program {
   imgUrl                 String
   createdUserPrograms    UserPrograms[] // this line should return the created special programs
   createdGeneralPrograms ProgramPackage[] // this line should return the created general programs
-  workouts               Workout[]
+  weeks                  ProgramWeek[]
   UserProgress           UserProgress[]
 }
 
@@ -85,43 +83,50 @@ model UserPrograms {
 }
 
 model Exercise {
-  id                 String             @id @default(uuid())
-  title              String
-  description        String
-  videoUrl           String
-  imgUrl             String
-  activeMuscle       ActiveMuscle
-  createdBy          Account            @relation(fields: [coachId], references: [id])
-  coachId            String             @unique
-  includedInWorkouts WorkoutExercises[]
-  UserProgress       UserProgress[]
+  id             String         @id @default(uuid())
+  title          String
+  description    String
+  videoUrl       String
+  imgUrl         String
+  activeMuscle   ActiveMuscle
+  createdBy      Account        @relation(fields: [coachId], references: [id])
+  coachId        String         
+  includedInDays DayExercise[]
+  userProgress   UserProgress[]
 }
 
-model Workout {
-  id           String             @id @default(uuid())
-  createdBy    Account            @relation(fields: [coachId], references: [id])
-  coachId      String             @unique
-  category     Category           @default(Beginner)
-  exercises    WorkoutExercises[]
-  UserProgress UserProgress[]
-  Program      Program            @relation(fields: [programId], references: [id])
-  programId    String
-  order        Int
+model ProgramWeek {
+  id        String       @id @default(uuid())
+  Program   Program      @relation(fields: [programId], references: [id], onDelete: Cascade)
+  programId String
+  order     Int
+  days      ProgramDay[]
 
   @@unique([programId, order])
 }
 
-model WorkoutExercises {
-  workout    Workout  @relation(fields: [workoutId], references: [id])
-  workoutId  String
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+model ProgramDay {
+  id        String        @id @default(uuid())
+  exercises DayExercise[]
+  week      ProgramWeek   @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  weekId    String
+  order     Int
+
+  @@unique([weekId, order])
+}
+
+model DayExercise {
+  day        ProgramDay @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  dayId      String
+  exercise   Exercise   @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
   exerciseId String
   order      Int
-  reps       Int
-  sets       Int
+  reps       Int?
+  sets       Int?
+  duration   Int?
 
-  @@id([workoutId, exerciseId])
-  @@unique([workoutId, order])
+  @@id([dayId, exerciseId])
+  @@unique([dayId, order])
 }
 
 model UserProgress {
@@ -130,8 +135,6 @@ model UserProgress {
   user            Account  @relation(fields: [userId], references: [id])
   programId       String
   currentProgram  Program  @relation(fields: [programId], references: [id])
-  workoutId       String
-  currentWorkout  Workout  @relation(fields: [workoutId], references: [id])
   exerciseId      String
   currentExercise Exercise @relation(fields: [exerciseId], references: [id])
   updatedAt       DateTime @default(now())

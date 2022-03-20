@@ -50,7 +50,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.53.1",
     "@aws-sdk/s3-request-presigner": "^3.53.1",
-    "@prisma/client": "^3.10.0",
+    "@prisma/client": "^3.11.0",
     "@sendgrid/mail": "^7.6.1",
     "bcrypt": "^5.0.1",
     "chalk": "^4.1.2",
@@ -62,6 +62,7 @@
     "express-async-handler": "^1.2.0",
     "fastest-validator": "^1.12.0",
     "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.1.13"
   }
 }
