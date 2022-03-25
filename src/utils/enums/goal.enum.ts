@@ -1,4 +1,6 @@
 export enum Goal {
-  LOSS = 'LOSS',
-  FIT = 'FIT',
+  WeightLoss,
+  StayFit,
+  GainMuscles,
+  GetStronger,
 }

@@ -424,8 +424,10 @@ paths:
                 goal:
                   type: string
                   enum:
-                    - LOSS
-                    - FIT 
+                    - WeightLoss
+                    - StayFit
+                    - GainMuscles
+                    - GetStronger
       tags:
         - Trainee
       responses:

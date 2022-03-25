@@ -222,6 +222,8 @@ enum Gender {
 }
 
 enum Goal {
-  LOSS
-  FIT
+  WeightLoss
+  StayFit
+  GainMuscles
+  GetStronger
 }
