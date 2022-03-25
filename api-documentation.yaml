@@ -7,9 +7,12 @@ info:
     name: lilwel
 servers:
   - url: http://ec2-13-36-165-47.eu-west-3.compute.amazonaws.com:3000/api/v1
+security:
+  - bearerAuth: []
 paths:
   /auth/login:
     post:
+      security: []
       summary: Logs user into the system
       requestBody:
         required: true
@@ -29,6 +32,7 @@ paths:
           description: successful login
   /auth/register:
     post:
+      security: []
       summary: Register new user into the system
       requestBody:
         required: true
@@ -57,6 +61,7 @@ paths:
           description: Account created successfully
   /auth/verify:
     post:
+      security: []
       summary: Validate user using OTP
       requestBody:
         required: true
@@ -76,6 +81,7 @@ paths:
           description: Account Verified Successfully
   /auth/send-otp:
     post:
+      security: []
       summary: Send new OTP
       requestBody:
         required: true
@@ -477,3 +483,14 @@ paths:
       responses:
         200:
           description: Trainee with that specific Id edited successfully
+
+
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
