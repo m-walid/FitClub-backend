@@ -1,10 +1,8 @@
 openapi: "3.0.0"
 info:
-  description: wl3a m3ako ya shbab el Front 🔥
-  version: 6.9.0
+  description: API documentation for Fitclub application.
+  version: 4.2.0
   title: 💪FitClub
-  license:
-    name: lilwel
 servers:
   - url: http://ec2-13-36-165-47.eu-west-3.compute.amazonaws.com:3000/api/v1
 security:
