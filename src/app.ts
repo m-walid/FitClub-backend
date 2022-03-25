@@ -2,6 +2,8 @@ import 'reflect-metadata';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({
   path: `./${process.env.NODE_ENV || 'test'}.env`,
@@ -33,6 +35,8 @@ app.use('/api/v1/exercises', exerciseRouter);
 app.use('/api/v1/coaches', coachRouter);
 app.use('/api/v1/programs', programRouter);
 
+const swaggerDocument = YAML.load('api-documentation.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //not found middleware
 app.use('/*', notFoundHandler);
 //exception middleware
