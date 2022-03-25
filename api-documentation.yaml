@@ -22,8 +22,6 @@ paths:
                   type: string
                 password:
                   type: string
-                role:
-                  type: string
       tags:
         - Auth
       responses:
