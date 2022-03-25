@@ -4,9 +4,9 @@ info:
   version: 6.9.0
   title: 💪FitClub
   license:
-    name: ZozaLimited
+    name: lilwel
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: http://ec2-13-36-165-47.eu-west-3.compute.amazonaws.com:3000/api/v1
 paths:
   /auth/login:
     post:
