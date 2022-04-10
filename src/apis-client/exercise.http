@@ -1,5 +1,5 @@
 @host = http://localhost:3000/api/v1
-@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiYzBjZTdiMmItMzhjYi00MzJhLWE4NWYtMjcxNDc2YzM4MzNmIiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY0NjQxMTAxMCwiZXhwIjoxNjQ3MDE1ODEwfQ.LvlVlMdDTf0W3SzgOM6XdMGq-S-RHmpnGZF62f4NbMM
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZGM2NzU5ZjUtYWVjNy00MTViLTkxOGUtMTQyOGIwYTU0YjdlIiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY0OTU5OTM3MSwiZXhwIjoxNjUwMjA0MTcxfQ.ZXVS8_ojANQgxfEwn2EAOpTzmTfEoGHsoogK3Umu1qE
 @exerciseId = 772f5035-d3d5-4757-801b-7b4c6ef12bdc
 
 @accountId =c0ce7b2b-38cb-432a-a85f-271476c3833f
@@ -8,7 +8,7 @@
 // post exercise
 POST {{host}}/exercises/
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
     "title":"pushups",              
@@ -21,12 +21,12 @@ Authorization: {{token}}
 ###
 // get exercise
 GET {{host}}/exercises/{{exerciseId}}
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 ###
 // delete exercise
 DELETE  {{host}}/exercises/{{exerciseId}}
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 
 
@@ -34,7 +34,7 @@ Authorization: {{token}}
 // update exercise
 PATCH {{host}}/exercises/{{exerciseId}}
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "title":"pullups",

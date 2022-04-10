@@ -3,4 +3,4 @@
 
 // get upload url
 GET {{host}}/uploads?num=3
-Authorization: {{token}}
+Authorization: Bearer {{token}}

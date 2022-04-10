@@ -4,19 +4,7 @@ import Exception from '@/exceptions/Exception';
 const includeBody = {
   weeks: {
     include: {
-      days: {
-        include: {
-          exercises: {
-            include: {
-              exercise: {
-                select: {
-                  id: true,
-                },
-              },
-            },
-          },
-        },
-      },
+      days: true,
     },
   },
 };
@@ -71,6 +59,26 @@ export default class ProgramRepository {
     });
     if (!program) throw new Exception('Program not found');
     return program;
+  };
+  static getProgramDayExercisesByDayId = async (dayId: string) => {
+    const day = await prisma.programDay.findUnique({
+      where: {
+        id: dayId,
+      },
+      include: {
+        exercises: {
+          include: {
+            exercise: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!day) throw new Exception('day not found');
+    return day;
   };
   static getProgramsByAccountId = async (accountId: string) => {
     const programs = await prisma.program.findMany({

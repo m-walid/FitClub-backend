@@ -5,7 +5,7 @@
 // create trainee profile
 POST {{host}}/trainees
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "age":18,
@@ -17,7 +17,7 @@ Authorization: {{token}}
 ###
 // get trainee profile
 GET {{host}}/trainees/{{id}}
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 
 
@@ -25,7 +25,7 @@ Authorization: {{token}}
 // update trainee profile
 PATCH {{host}}/trainees/{{id}}
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "weight":66

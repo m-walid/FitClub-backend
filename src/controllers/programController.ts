@@ -20,6 +20,12 @@ export default class ProgramController {
     const program = await ProgramService.getProgram(programId);
     res.send(formatResponse(program));
   });
+  static getProgramDayExercises = asyncHandler(async (req, res) => {
+    const dayId = req.params.dayId;
+    // TODO: VALIDATION IF SUBSCRIBED USER OR OWNER OF PROGRAM
+    const program = await ProgramService.getProgramDayExercises(dayId);
+    res.send(formatResponse(program));
+  });
   static updateProgram = asyncHandler(async (req: RequestWithAccount, res) => {
     const programId = req.params.id;
     const program = await ProgramService.getProgram(programId);

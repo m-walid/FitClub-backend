@@ -7,7 +7,7 @@
 // create coach profile
 POST {{host}}/coaches
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "bio": "fitness coach lesgoo"
@@ -15,7 +15,7 @@ Authorization: {{token}}
 ###
 // get coach profile
 GET {{host}}/coaches/{{coachId}}
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 
 
@@ -23,7 +23,7 @@ Authorization: {{token}}
 // update coach profile
 PATCH {{host}}/coaches/{{coachId}}
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "bio":"dsffdsojds dfsofsdopf"
@@ -34,7 +34,7 @@ Authorization: {{token}}
 // post review
 POST {{host}}/coaches/{{coachId}}/reviews/
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {            
     "description":"lorem sadkljferijflksf",       
@@ -44,12 +44,12 @@ Authorization: {{token}}
 ###
 // get reviews
 GET {{host}}/coaches/{{coachId}}/reviews
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 ###
 // delete review
 DELETE  {{host}}/coaches/reviews/{{reviewId}}
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 
 
@@ -57,7 +57,7 @@ Authorization: {{token}}
 // update review
 PATCH {{host}}/coaches/reviews/{{reviewId}}
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "rating":4
@@ -67,4 +67,4 @@ Authorization: {{token}}
 ###
 // get exercises
 GET {{host}}/coaches/{{coachId}}/exercises
-Authorization: {{token}}
+Authorization: Bearer {{token}}

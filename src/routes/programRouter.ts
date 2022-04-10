@@ -11,4 +11,5 @@ programRouter
   .get([ProgramController.getProgram])
   .patch([roleAuth(Role.COACH), ProgramController.updateProgram])
   .delete([roleAuth(Role.COACH), ProgramController.deleteProgram]);
+programRouter.get('/:id/days/:dayId/exercises', [ProgramController.getProgramDayExercises]);
 export default programRouter;

@@ -7,7 +7,7 @@
     "build": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "start": "npm run build && cross-env NODE_ENV=prod node dist/server.js",
-    "start:test": "cross-env NODE_ENV=test nodemon",
+    "start:dev": "cross-env NODE_ENV=prod nodemon",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "prisma:migrate:test": "dotenv -e test.env -- npx prisma migrate dev",
     "prisma:migrate:prod": "dotenv -e prod.env -- npx prisma migrate dev"
