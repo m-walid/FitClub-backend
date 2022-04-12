@@ -14,8 +14,7 @@ Authorization:Bearer {{token}}
     "title":"pushups",              
     "description":"lorem sadkljferijflksf",       
     "videoUrl":"test",          
-    "imgUrl":"test",         
-    "activeMuscle":"Shoulders"
+    "imgUrl":"test"        
 }
 
 ###

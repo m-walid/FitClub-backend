@@ -1,5 +1,4 @@
-import { ActiveMuscle } from '@/utils/enums/activeMuscle';
-import { Allow, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export default class UpdateExerciseDto {
   @IsOptional()
@@ -19,8 +18,4 @@ export default class UpdateExerciseDto {
   @IsOptional()
   @IsString()
   imgUrl: string;
-
-  @IsOptional()
-  @IsEnum(ActiveMuscle)
-  activeMuscle: ActiveMuscle;
 }

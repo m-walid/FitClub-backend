@@ -28,7 +28,7 @@ export default class AuthService {
       },
     };
     const token = await jwtService.signToken(tokenPayload);
-    return { token, id: account.id };
+    return { token, id: account.id, role: account.role };
   };
 
   static verifyAccount = async (verifyBody) => {
@@ -43,7 +43,7 @@ export default class AuthService {
       },
     };
     const token = await jwtService.signToken(tokenPayload);
-    return { token, id: account.id };
+    return { token, id: account.id, role: account.role };
   };
 
   static encrypt = async (payload) => {

@@ -101,7 +101,6 @@ export const mockExercise = async (coachId: string) => {
       description: 'lorem sadkljferijflksf',
       videoUrl: 'test',
       imgUrl: 'test',
-      activeMuscle: 'Shoulders',
     },
   });
 };

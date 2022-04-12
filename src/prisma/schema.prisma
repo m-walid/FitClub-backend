@@ -89,7 +89,6 @@ model Exercise {
   description    String
   videoUrl       String
   imgUrl         String
-  activeMuscle   ActiveMuscle
   createdBy      Account        @relation(fields: [coachId], references: [id])
   coachId        String
   includedInDays DayExercise[]
@@ -204,13 +203,6 @@ model Billing {
   traineeId String
   trainee   Account  @relation(fields: [traineeId], references: [id])
   createdAt DateTime @default(now())
-}
-
-enum ActiveMuscle {
-  Biceps
-  Triceps
-  Chest
-  Shoulders
 }
 
 enum Category {
