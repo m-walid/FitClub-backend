@@ -1,0 +1,37 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  Continous_Deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: npm ci && npm run build
+      - name: Copy project to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: './dist'
+          REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
+          REMOTE_USER: ubuntu
+          TARGET: "FitClub-backend/"
+
+      - name: Restart backend
+        uses: appleboy/ssh-action@main
+        with:
+          host: ${{ secrets.EC2_SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: cd "FitClub-backend/" && pm2 start
+
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
