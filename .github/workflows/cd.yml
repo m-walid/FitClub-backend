@@ -31,6 +31,15 @@ jobs:
           REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
           REMOTE_USER: ubuntu
           TARGET: "FitClub-backend/"
+      - name: Copy node_modules to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: '/node_modules'
+          REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
+          REMOTE_USER: ubuntu
+          TARGET: "FitClub-backend/"
 
       - name: Restart backend
         uses: appleboy/ssh-action@master
