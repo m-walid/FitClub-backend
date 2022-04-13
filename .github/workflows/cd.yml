@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: npm ci && npm run build
+      - run: npm i && npm run build
       - name: Copy project to server
         uses: easingthemes/ssh-deploy@main
         env:
