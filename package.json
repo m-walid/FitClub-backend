@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "rm -rf dist/ && tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "start": "npm run build && cross-env NODE_ENV=prod node dist/server.js",
     "start:dev": "cross-env NODE_ENV=prod nodemon",

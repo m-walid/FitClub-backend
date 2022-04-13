@@ -35,6 +35,6 @@
       "@utils/*": ["utils/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.json", ".env", "ecosystem.config.js"],
+  "include": ["src/**/*.ts", "src/**/*.json"],
   "exclude": ["node_modules", "src/http", "src/logs"]
 }
