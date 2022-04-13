@@ -9,34 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - run: npm i && npm run build
+
       - name: Copy project to server
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: '/dist'
-          REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
-          REMOTE_USER: ubuntu
-          TARGET: "FitClub-backend/"
-      - name: Copy pm2 configuration to server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: 'ecosystem.config.js'
-          REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
-          REMOTE_USER: ubuntu
-          TARGET: "FitClub-backend/"
-      - name: Copy node_modules to server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete'
-          SOURCE: '/node_modules'
+          ARGS: "-rltgoDzvO --delete"
           REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
           REMOTE_USER: ubuntu
           TARGET: "FitClub-backend/"
@@ -47,8 +25,7 @@ jobs:
           host: ${{ secrets.EC2_SSH_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: cd "FitClub-backend/" && pm2 start
-
+          script: cd "FitClub-backend/" && npm i && npm run build && pm2 start
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:
