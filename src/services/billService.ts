@@ -1,9 +1,8 @@
 import BillDto from '@/dtos/billDto';
-import BillWithRequestDto from '@/dtos/billWithRequestDto';
 import BillRepository from '@/repositories/billRepository';
 
 export default class BillService {
-  static addBill = async (billDto: BillDto | BillWithRequestDto) => {
+  static addBill = async (billDto: BillDto) => {
     return await BillRepository.addBill(billDto);
   };
   static getBill = async (billId: string) => {

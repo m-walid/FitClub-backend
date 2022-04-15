@@ -3,18 +3,19 @@ import validateDto from '@/dtos/validate';
 import Exception from '@/exceptions/Exception';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
 import { RequestWithAccount } from '@/interfaces/authInterface';
+import ChatService from '@/services/chatService';
 import ProgramRequestService from '@/services/programRequestService';
 import { Role } from '@/utils/enums/role.enum';
 import formatResponse from '@/utils/formatResponse';
 import asyncHandler from 'express-async-handler';
 
-export default class ProgramRequest {
+export default class ProgramRequestController {
   static addRequest = asyncHandler(async (req: RequestWithAccount, res) => {
     const programRequestDto: ProgramRequestDto = req.body;
     await validateDto(ProgramRequestDto, programRequestDto);
     programRequestDto.traineeId = req.account.id;
     const createdProgramRequest = await ProgramRequestService.addProgramRequest(programRequestDto);
-    // TODO: Add Chat between coach and trainee
+    await ChatService.addChat(programRequestDto.traineeId, programRequestDto.coachId);
     res.send(formatResponse(createdProgramRequest));
   });
 

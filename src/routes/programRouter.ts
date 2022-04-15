@@ -6,6 +6,7 @@ import ProgramController from '@/controllers/programController';
 const programRouter = Router();
 programRouter.use(auth);
 programRouter.route('/').post([roleAuth(Role.COACH), ProgramController.postProgram]);
+programRouter.route('/:requestId').post([roleAuth(Role.COACH), ProgramController.postProgramWithRequest]);
 programRouter
   .route('/:id')
   .get([ProgramController.getProgram])

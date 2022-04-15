@@ -2,7 +2,9 @@ import ProgramDto from '@/dtos/programDto';
 import validateDto from '@/dtos/validate';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
 import { RequestWithAccount } from '@/interfaces/authInterface';
+import ProgramRequestService from '@/services/programRequestService';
 import ProgramService from '@/services/programService';
+import { ProgramRequestStatus } from '@prisma/client';
 import formatResponse from '@utils/formatResponse';
 import asyncHandler from 'express-async-handler';
 
@@ -12,6 +14,16 @@ export default class ProgramController {
     await validateDto(ProgramDto, programDto);
     const coachId = req.account.id;
     const createdProgram = await ProgramService.addProgram(programDto, coachId);
+    res.send(formatResponse(createdProgram));
+  });
+
+  static postProgramWithRequest = asyncHandler(async (req: RequestWithAccount, res) => {
+    const programDto: ProgramDto = req.body;
+    await validateDto(ProgramDto, programDto);
+    const programRequestId = req.params.requestId;
+    const coachId = req.account.id;
+    const createdProgram = await ProgramService.addProgram(programDto, coachId);
+    await ProgramRequestService.updateProgramRequestStatus(programRequestId, ProgramRequestStatus.Done);
     res.send(formatResponse(createdProgram));
   });
   static getProgram = asyncHandler(async (req, res) => {

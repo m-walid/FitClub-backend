@@ -5,6 +5,7 @@ info:
   title: 💪FitClub
 servers:
   - url: http://ec2-13-36-165-47.eu-west-3.compute.amazonaws.com:3000/api/v1
+  - url: http:localhost:3000/api/v1
 security:
   - bearerAuth: []
 paths:
@@ -141,11 +142,11 @@ paths:
               type: object
               properties:
                 firstName:
-                  type: string 
+                  type: string
                 lastName:
-                  type: string  
+                  type: string
                 imgUrl:
-                  type: string      
+                  type: string
       tags:
         - Account
       responses:
@@ -200,7 +201,7 @@ paths:
               type: object
               properties:
                 bio:
-                  type: string    
+                  type: string
       tags:
         - Coach
       responses:
@@ -255,7 +256,7 @@ paths:
                 description:
                   type: string
                 rating:
-                  type: number  
+                  type: number
       tags:
         - Coach
       responses:
@@ -268,7 +269,7 @@ paths:
         - in: path
           name: id
           required: true
-          description: enter ID of the review 
+          description: enter ID of the review
           schema:
             type: string
       requestBody:
@@ -281,7 +282,7 @@ paths:
                 description:
                   type: string
                 rating:
-                  type: number  
+                  type: number
 
       tags:
         - Coach
@@ -322,7 +323,7 @@ paths:
                 imgUrl:
                   type: string
       tags:
-        - Exercise 
+        - Exercise
       responses:
         200:
           description: Exercise added successfully
@@ -337,7 +338,7 @@ paths:
           schema:
             type: string
       tags:
-        - Exercise 
+        - Exercise
       responses:
         200:
           description: Exercise with that specific Id returned
@@ -366,7 +367,7 @@ paths:
                 imgUrl:
                   type: string
       tags:
-        - Exercise 
+        - Exercise
       responses:
         200:
           description: Exercise with that specific Id edited successfully
@@ -380,7 +381,7 @@ paths:
           schema:
             type: string
       tags:
-        - Exercise 
+        - Exercise
       responses:
         200:
           description: Exercise with that specific Id deleted successfully
@@ -463,20 +464,154 @@ paths:
                   type: string
                   enum:
                     - LOSS
-                    - FIT   
+                    - FIT
       tags:
         - Trainee
       responses:
         200:
           description: Trainee with that specific Id edited successfully
-
-
-
-
+  /requests:
+    post:
+      summary: add new program request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coachId:
+                  type: string
+      tags:
+        - Program Request
+      responses:
+        200:
+          description: Program Request added successfully
+    get:
+      summary: Get all program requests for the signed user(trainee or coach), response data depends on the role of user
+      tags:
+        - Program Request
+      responses:
+        200:
+          description: All program requests returned
+  /requests/{id}:
+    get:
+      summary: Get a specific program request
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the request to be retrieved
+          schema:
+            type: string
+      tags:
+        - Program Request
+      responses:
+        200:
+          description: Program Request with that specific Id returned
+  /requests/{id}/{status}:
+    patch:
+      summary: Edit a specific program request status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the request to be edited
+          schema:
+            type: string
+        - in: path
+          name: status
+          required: true
+          description: enter status of the request to be edited
+          schema:
+            type: string
+            enum:
+              - accepted
+              - rejected
+      tags:
+        - Program Request
+      responses:
+        200:
+          description: Program Request with that specific Id status updated successfully
+  /bills:
+    post:
+      summary: Add new bill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traineeId:
+                  type: string
+                programId:
+                  type: string
+      tags:
+        - Bill
+      responses:
+        200:
+          description: Bill added successfully
+    get:
+      summary: Get all bills for the signed user(trainee or coach)
+      tags:
+        - Bill
+      responses:
+        200:
+          description: All bills returned
+  /bills/{id}:
+    get:
+      summary: Get a specific bill
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the bill to be retrieved
+          schema:
+            type: string
+      tags:
+        - Bill
+      responses:
+        200:
+          description: Bill with that specific Id returned
+  /bills/{requestId}:
+    post:
+      summary: Add new bill with program request
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          description: enter ID of the request to be used to create the bill
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traineeId:
+                  type: string
+                programId:
+                  type: string
+      tags:
+        - Bill
+      responses:
+        200:
+          description: Bill added successfully
+  /chats/:
+    get:
+      summary: Get all chats for the signed user(trainee or coach)
+      tags:
+        - Chat
+      responses:
+        200:
+          description: All chats returned
 
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes

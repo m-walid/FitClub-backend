@@ -1,5 +1,5 @@
 import { Decimal } from '@prisma/client/runtime';
-import { Allow, IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import { Allow, IsNotEmpty, IsString } from 'class-validator';
 
 export default class BillDto {
   @IsString()

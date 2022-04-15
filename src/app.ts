@@ -18,6 +18,9 @@ import uploadRouter from '@routes/uploadRouter';
 import exerciseRouter from './routes/exerciseRouter';
 import coachRouter from './routes/coachRouter';
 import programRouter from './routes/programRouter';
+import programRequestRouter from './routes/programRequestRouter';
+import billRouter from './routes/billRouter';
+import chatRouter from './routes/chatRouter';
 
 const app = express();
 
@@ -34,6 +37,9 @@ app.use('/api/v1/uploads', uploadRouter);
 app.use('/api/v1/exercises', exerciseRouter);
 app.use('/api/v1/coaches', coachRouter);
 app.use('/api/v1/programs', programRouter);
+app.use('/api/v1/requests', programRequestRouter);
+app.use('/api/v1/bills', billRouter);
+app.use('/api/v1/chats', chatRouter);
 
 const swaggerDocument = YAML.load('api-documentation.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

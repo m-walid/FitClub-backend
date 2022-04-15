@@ -1,5 +1,4 @@
 import BillDto from '@/dtos/billDto';
-import BillWithRequestDto from '@/dtos/billWithRequestDto';
 import validateDto from '@/dtos/validate';
 import Exception from '@/exceptions/Exception';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
@@ -18,24 +17,28 @@ export default class BillController {
     billDto.traineeId = req.account.id;
     const program = await ProgramService.getProgram(billDto.programId);
     billDto.amount = program.price;
+    // TODO: USE TRANSACTION
     const createdBill = await BillService.addBill(billDto);
+    await ProgramService.attachProgramToTrainee(billDto.programId, billDto.traineeId);
     res.send(formatResponse(createdBill));
   });
 
   static postBillWithRequest = asyncHandler(async (req: RequestWithAccount, res) => {
-    const billWithRequestDto: BillWithRequestDto = req.body;
-    await validateDto(BillWithRequestDto, billWithRequestDto);
-    billWithRequestDto.traineeId = req.account.id;
-    const programRequest = await ProgramRequestService.getProgramRequestById(billWithRequestDto.programRequestId);
+    const billDto: BillDto = req.body;
+    const programRequestId = req.params.requestId;
+    await validateDto(BillDto, billDto);
+    billDto.traineeId = req.account.id;
+    const programRequest = await ProgramRequestService.getProgramRequestById(programRequestId);
     if (programRequest.traineeId !== req.account.id) throw new UnauthorizedException();
+    if (programRequest.status !== ProgramRequestStatus.Done) throw new Exception('Program request is not done');
     if (!programRequest.programId) throw new Exception('Program request does not have a program');
-    billWithRequestDto.programId = programRequest.programId;
-    const program = await ProgramService.getProgram(billWithRequestDto.programId);
-    billWithRequestDto.amount = program.price;
+    billDto.programId = programRequest.programId;
+    const program = await ProgramService.getProgram(billDto.programId);
+    billDto.amount = program.price;
     // TODO: USE TRANSACTION
-    const createdBill = await BillService.addBill(billWithRequestDto);
-    await ProgramService.attachProgramToTrainee(billWithRequestDto.programId, billWithRequestDto.traineeId);
-    await ProgramRequestService.updateProgramRequestStatus(billWithRequestDto.programRequestId, ProgramRequestStatus.Delivered);
+    const createdBill = await BillService.addBill(billDto);
+    await ProgramService.attachProgramToTrainee(billDto.programId, billDto.traineeId);
+    await ProgramRequestService.updateProgramRequestStatus(programRequestId, ProgramRequestStatus.Delivered);
     res.send(formatResponse(createdBill));
   });
 

@@ -199,8 +199,7 @@ model Bill {
 }
 
 model ChatRoom {
-  id        String  @id @default(uuid())
-  roomId    String
+  roomId    String  @id @default(uuid())
   coachId   String
   coach     Account @relation("chatRoomCoach", fields: [coachId], references: [id])
   traineeId String

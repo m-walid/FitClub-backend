@@ -1,9 +1,10 @@
 import ProgramDto from '@/dtos/programDto';
 import ProgramRepository from '@/repositories/programRepository';
+import { ProgramType } from '@prisma/client';
 
 export default class ProgramService {
-  static addProgram = async (programDto: ProgramDto, coachId: string) => {
-    return await ProgramRepository.addProgramByAccountId(programDto, coachId);
+  static addProgram = async (programDto: ProgramDto, coachId: string, type = ProgramType.General) => {
+    return await ProgramRepository.addProgramByAccountId(programDto, coachId, type);
   };
   static getProgram = async (programId: string) => {
     return await ProgramRepository.getProgramById(programId);

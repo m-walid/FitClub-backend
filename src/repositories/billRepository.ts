@@ -1,10 +1,9 @@
 import { prisma } from '@/config/config';
 import BillDto from '@/dtos/billDto';
-import BillWithRequestDto from '@/dtos/billWithRequestDto';
 import Exception from '@/exceptions/Exception';
 
 export default class BillRepository {
-  static async addBill(billDto: BillDto | BillWithRequestDto) {
+  static async addBill(billDto: BillDto) {
     const createdBill = await prisma.bill.create({
       data: {
         program: { connect: { id: billDto.programId } },
