@@ -1,32 +1,32 @@
-name: CD
+# name: CD
 
-on:
-  push:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
 
-jobs:
-  Continous_Deployment:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+# jobs:
+#   Continous_Deployment:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
 
-      - name: Copy project to server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          ARGS: "-rltgoDzvO --delete"
-          REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
-          REMOTE_USER: ubuntu
-          TARGET: "FitClub-backend/"
+#       - name: Copy project to server
+#         uses: easingthemes/ssh-deploy@main
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+#           ARGS: "-rltgoDzvO --delete"
+#           REMOTE_HOST: ${{ secrets.EC2_SSH_HOST }}
+#           REMOTE_USER: ubuntu
+#           TARGET: "FitClub-backend/"
 
-      - name: Restart backend
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_SSH_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: cd "FitClub-backend/" && npm i && npm run build && pm2 start
-      - uses: sarisia/actions-status-discord@v1
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+#       - name: Restart backend
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.EC2_SSH_HOST }}
+#           username: ubuntu
+#           key: ${{ secrets.EC2_SSH_KEY }}
+#           script: cd "FitClub-backend/" && npm i && npm run build && pm2 start
+#       - uses: sarisia/actions-status-discord@v1
+#         if: always()
+#         with:
+#           webhook: ${{ secrets.DISCORD_WEBHOOK }}

@@ -20,4 +20,8 @@ export default class ProgramService {
   static deleteProgram = async (programId: string) => {
     return await ProgramRepository.deleteProgramById(programId);
   };
+
+  static attachProgramToTrainee = async (programId: string, traineeId: string) => {
+    return await ProgramRepository.attachProgramToTrainee(programId, traineeId);
+  };
 }

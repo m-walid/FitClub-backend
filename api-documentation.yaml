@@ -365,13 +365,6 @@ paths:
                   type: string
                 imgUrl:
                   type: string
-                activeMuscle:
-                  type: string
-                  enum:
-                    - Biceps
-                    - Triceps
-                    - Chest
-                    - Shoulders 
       tags:
         - Exercise 
       responses:

@@ -24,15 +24,17 @@ model Account {
   joinedPrograms           UserPrograms[]
   createdExercises         Exercise[]
   userProgress             UserProgress[]
-  userToProgramReviews     PackageReview[]
-  packages                 Package[]
+  userToProgramReviews     ProgramReview[]
   coachReviews             CoachReviews[]   @relation("reviewedCoach")
   userToCoachReviews       CoachReviews[]   @relation("reviewer")
   otp                      Otp?
   isVerified               Boolean          @default(false)
   programsRequested        ProgramRequest[] @relation("requester")
   ProgramsRequestsReceived ProgramRequest[] @relation("requestReceiver")
-  bills                    Billing[]
+  traineeBills             Bill[]           @relation("traineeBills")
+  coachBills               Bill[]           @relation("coachBills")
+  traineeChatRooms         ChatRoom[]       @relation("chatRoomTrainee")
+  coachChatRooms           ChatRoom[]       @relation("chatRoomCoach")
 }
 
 model Otp {
@@ -59,18 +61,22 @@ model TraineeProfile {
 }
 
 model Program {
-  id           String         @id @default(uuid())
-  createdBy    Account        @relation(fields: [coachId], references: [id], onDelete: Cascade)
-  coachId      String
-  title        String
-  description  String
-  category     Category       @default(Beginner)
-  duration     Int
-  imgUrl       String
-  package      Package?
-  weeks        ProgramWeek[]
-  UserProgress UserProgress[]
-  UserPrograms UserPrograms[]
+  id             String          @id @default(uuid())
+  createdBy      Account         @relation(fields: [coachId], references: [id], onDelete: Cascade)
+  coachId        String
+  title          String
+  description    String
+  category       Category        @default(Beginner)
+  duration       Int
+  imgUrl         String
+  programReviews ProgramReview[]
+  weeks          ProgramWeek[]
+  UserProgress   UserProgress[]
+  UserPrograms   UserPrograms[]
+  bills          Bill[]
+  type           ProgramType     @default(General)
+  price          Decimal         @default(0)
+  programRequest ProgramRequest?
 }
 
 model UserPrograms {
@@ -142,21 +148,6 @@ model UserProgress {
   exerciseNo      Int
 }
 
-model Package {
-  id              String           @id @default(uuid())
-  title           String
-  description     String
-  type            PackageType      @default(General)
-  programId       String?          @unique
-  program         Program?         @relation(fields: [programId], references: [id], onDelete: Cascade)
-  price           Decimal
-  packageReviews  PackageReview[]
-  coach           Account          @relation(fields: [coachId], references: [id], onDelete: Cascade)
-  coachId         String
-  programRequests ProgramRequest[]
-  bills           Billing[]
-}
-
 model ProgramRequest {
   id        String               @id @default(uuid())
   traineeId String
@@ -164,23 +155,22 @@ model ProgramRequest {
   coachId   String
   coach     Account              @relation("requestReceiver", fields: [coachId], references: [id], onDelete: Cascade)
   createdAt DateTime             @default(now())
-  packageId String
-  package   Package              @relation(fields: [packageId], references: [id])
+  program   Program?             @relation(fields: [programId], references: [id])
+  programId String?              @unique
   status    ProgramRequestStatus @default(Pending)
-
 }
 
-model PackageReview {
+model ProgramReview {
   id           String   @id @default(uuid())
   userId       String
   reviewAuthor Account  @relation(fields: [userId], references: [id])
-  packageId    String
-  package      Package  @relation(fields: [packageId], references: [id])
+  programId    String
+  program      Program  @relation(fields: [programId], references: [id])
   createdAt    DateTime @default(now())
   description  String
   rating       Int
 
-  @@unique([userId, packageId])
+  @@unique([userId, programId])
 }
 
 model CoachReviews {
@@ -196,13 +186,27 @@ model CoachReviews {
   @@unique([userId, coachId])
 }
 
-model Billing {
+model Bill {
   id        String   @id @default(uuid())
-  packageId String
-  package   Package  @relation(fields: [packageId], references: [id])
+  programId String
+  program   Program  @relation(fields: [programId], references: [id])
   traineeId String
-  trainee   Account  @relation(fields: [traineeId], references: [id])
+  trainee   Account  @relation("traineeBills", fields: [traineeId], references: [id])
+  coachId   String
+  coach     Account  @relation("coachBills", fields: [coachId], references: [id])
+  amount    Decimal
   createdAt DateTime @default(now())
+}
+
+model ChatRoom {
+  id        String  @id @default(uuid())
+  roomId    String
+  coachId   String
+  coach     Account @relation("chatRoomCoach", fields: [coachId], references: [id])
+  traineeId String
+  trainee   Account @relation("chatRoomTrainee", fields: [traineeId], references: [id])
+
+  @@unique([coachId, traineeId])
 }
 
 enum Category {
@@ -237,5 +241,11 @@ enum ProgramRequestStatus {
   Pending
   Preparing
   Done
+  Delivered
   Cancelled
+}
+
+enum ProgramType {
+  General
+  Custom
 }

@@ -1,6 +1,7 @@
 import { prisma } from '@/config/config';
 import ProgramDto from '@/dtos/programDto';
 import Exception from '@/exceptions/Exception';
+import ProgramType from '@utils/enums/programType.enum';
 const includeBody = {
   weeks: {
     include: {
@@ -9,10 +10,12 @@ const includeBody = {
   },
 };
 export default class ProgramRepository {
-  static addProgramByAccountId = async (programDto: ProgramDto, accountId: string) => {
+  static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type = ProgramType.General) => {
     const program = prisma.program.create({
       data: {
         description: programDto.description,
+        price: programDto.price,
+        type: type,
         title: programDto.title,
         imgUrl: programDto.imgUrl,
         category: programDto.category,
@@ -103,6 +106,7 @@ export default class ProgramRepository {
         data: {
           description: programDto.description,
           title: programDto.title,
+          price: programDto.price,
           imgUrl: programDto.imgUrl,
           category: programDto.category,
           duration: programDto.weeks.length,
@@ -143,5 +147,15 @@ export default class ProgramRepository {
       },
     });
     return deletedProgram;
+  };
+
+  static attachProgramToTrainee = async (programId: string, traineeId: string) => {
+    const program = await prisma.userPrograms.create({
+      data: {
+        program: { connect: { id: programId } },
+        user: { connect: { id: traineeId } },
+      },
+    });
+    return program;
   };
 }

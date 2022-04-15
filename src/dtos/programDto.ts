@@ -1,6 +1,6 @@
 import { ProgramCategory } from '@/utils/enums/programCategory';
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength, ValidateNested } from 'class-validator';
+import { IsArray, IsDecimal, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, MinLength, ValidateNested } from 'class-validator';
 import ProgramWeekDto from './programWeekDto';
 
 export default class ProgramDto {
@@ -14,6 +14,10 @@ export default class ProgramDto {
 
   @IsString()
   imgUrl: string;
+
+  @IsNumber()
+  @IsPositive()
+  price: number;
 
   @IsOptional()
   @IsEnum(ProgramCategory)
