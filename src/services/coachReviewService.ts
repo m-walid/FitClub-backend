@@ -15,7 +15,7 @@ export default class CoachReviewService {
   static updateReview = async (reviewDto: UpdateCoachReview, reviewId: string) => {
     return await coachReviewRepository.updateReviewById(reviewDto, reviewId);
   };
-  static deleteReview = async (exerciseId: string) => {
-    return await coachReviewRepository.deleteReviewById(exerciseId);
+  static deleteReview = async (reviewId: string) => {
+    return await coachReviewRepository.deleteReviewById(reviewId);
   };
 }
