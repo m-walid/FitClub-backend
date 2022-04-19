@@ -1,5 +1,4 @@
 import { prisma } from '@/config/config';
-import CreateCoachReview from '@/dtos/createCoachReview';
 import CreateProgramReview from '@/dtos/createProgramReview';
 import UpdateCoachReview from '@/dtos/updateCoachReview';
 import Exception from '@/exceptions/Exception';
@@ -10,6 +9,7 @@ export default class programReviewRepository {
       data: reviewDto,
     });
     return review;
+    
   };
   static getReveiwById = async (reviewId: string) => {
     const review = await prisma.coachReviews.findUnique({
