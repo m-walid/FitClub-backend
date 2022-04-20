@@ -13,4 +13,8 @@ programRouter
   .patch([roleAuth(Role.COACH), ProgramController.updateProgram])
   .delete([roleAuth(Role.COACH), ProgramController.deleteProgram]);
 programRouter.get('/:id/days/:dayId/exercises', [ProgramController.getProgramDayExercises]);
+programRouter.post('/:id/reviews', [auth, roleAuth(Role.TRAINEE), ProgramController.postReview]);
+programRouter.get('/:id/reviews', [auth, ProgramController.getReviews]);
+programRouter.patch('/reviews/:id', [auth, ProgramController.updateReview]);
+programRouter.delete('/reviews/:id', [auth, ProgramController.deleteReview]);
 export default programRouter;

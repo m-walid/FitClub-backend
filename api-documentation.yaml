@@ -96,6 +96,7 @@ paths:
       responses:
         200:
           description: OTP Code Sent Successfully
+          
   /accounts/{id}:
     get:
       summary: Retrieve account by ID
@@ -152,6 +153,327 @@ paths:
       responses:
         200:
           description: Account edited Successfully
+  /programs:
+    post:
+      summary: Add new program
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                imgUrl:
+                  type: string
+                price:
+                  type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
+                  
+      tags:
+        - Program
+      responses:
+        200:
+          description: Program created successfully
+  /programs/{requestId}:
+    post:
+      summary: Add program to specific user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program request
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                imgUrl:
+                  type: string
+                price:
+                  type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: Program Added Successfully
+  /programs/{id}:
+    get:
+      summary: Get a specific program
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program to be retrieved
+          schema:
+            type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: program with that specific Id returned
+    patch:
+      summary: Edit a specific program
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program to be edited
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                imgUrl:
+                  type: string
+                price:
+                  type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: program with that specific Id edited successfully
+    delete:
+      summary: Delete program of specific ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program
+          schema:
+            type: string
+
+      tags:
+        - Program
+      responses:
+        200:
+          description: Program deleted successfully
+  /programs/{id}/days/{dadId}/exercies:
+    get:
+      summary: Get a specific program
+      parameters:
+        - in: path
+          name: programId
+          required: true
+          description: enter ID of the program to be retrieved
+          schema:
+            type: string
+        - in: path
+          name: DayId
+          required: true
+          description: enter ID of the day to be retrieved
+          schema:
+            type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: exercise of a specific day of a specific program retrieved
+  /programs/{id}/reviews:
+    get:
+      summary: Get a specific program's reviews
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program desired to retrieve reviews
+          schema:
+            type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: Program reviews with that specific Id returned
+    post:
+      summary: Add review to specific program
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the program to be reviwed
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                rating:
+                  type: number
+      tags:
+        - Program
+      responses:
+        200:
+          description: Review added to this specific program
+  /programs/reviews/{id}:
+    patch:
+      summary: Edit a specific program review
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the review
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                rating:
+                  type: number
+
+      tags:
+        - Program
+      responses:
+        200:
+          description: program review with that specific Id edited successfully
+    delete:
+      summary: Delete review to specific program
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the review
+          schema:
+            type: string
+
+      tags:
+        - Program
+      responses:
+        200:
+          description: Review deleted successfully
   /coaches:
     post:
       summary: Add new coach

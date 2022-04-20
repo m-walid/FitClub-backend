@@ -5,7 +5,7 @@ import Exception from '@/exceptions/Exception';
 
 export default class ExerciseRepository {
   static addExerciseByAccountId = async (exerciseDto: CreateExerciseDto) => {
-    const exercise = prisma.exercise.create({
+    const exercise = await prisma.exercise.create({
       data: exerciseDto,
     });
     return exercise;
