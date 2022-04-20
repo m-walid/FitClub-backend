@@ -11,7 +11,7 @@ export default class CreateProgramReview {
   rating: number;
 
   @Allow()
-  coachId: string;
+  programId: string;
   @Allow()
   userId: string;
 }

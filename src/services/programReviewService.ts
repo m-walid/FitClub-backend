@@ -4,13 +4,13 @@ import programReviewRepository from '@/repositories/programReviewRepository';
 
 export default class ProgramReviewService {
   static addReview = async (reviewDto: CreateProgramReview) => {
-    return await programReviewRepository.addReviewByAccountId(reviewDto);
+    return await programReviewRepository.addReviewByProgramId(reviewDto);
   };
   static getReview = async (reviewId: string) => {
     return await programReviewRepository.getReveiwById(reviewId);
   };
-  static getReviews = async (accountId: string) => {
-    return await programReviewRepository.getReviewsByAccountId(accountId);
+  static getReviews = async (programId: string) => {
+    return await programReviewRepository.getReviewsByProgramId(programId);
   };
   static updateReview = async (reviewDto: UpdateProgramReview, reviewId: string) => {
     return await programReviewRepository.updateReviewById(reviewDto, reviewId);

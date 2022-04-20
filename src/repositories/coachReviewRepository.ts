@@ -5,7 +5,7 @@ import Exception from '@/exceptions/Exception';
 
 export default class coachReviewRepository {
   static addReviewByAccountId = async (reviewDto: CreateCoachReview) => {
-    const review = prisma.coachReviews.create({
+    const review = await prisma.coachReviews.create({
       data: reviewDto,
     });
     return review;

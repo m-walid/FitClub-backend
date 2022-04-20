@@ -1,23 +1,22 @@
 import { prisma } from '@/config/config';
 import CreateProgramReview from '@/dtos/createProgramReview';
-import UpdateCoachReview from '@/dtos/updateCoachReview';
+import UpdateProgramReview from '@/dtos/updateProgramReview';
 import Exception from '@/exceptions/Exception';
 
 export default class programReviewRepository {
-  static addReviewByAccountId = async (reviewDto: CreateProgramReview) => {
-    const review = prisma.coachReviews.create({
+  static addReviewByProgramId = async (reviewDto: CreateProgramReview) => {
+    const review = await prisma.programReview.create({
       data: reviewDto,
     });
     return review;
-    
   };
   static getReveiwById = async (reviewId: string) => {
-    const review = await prisma.coachReviews.findUnique({
+    const review = await prisma.programReview.findUnique({
       where: {
         id: reviewId,
       },
       include: {
-        user: {
+        reviewAuthor: {
           select: {
             firstName: true,
             lastName: true,
@@ -29,13 +28,13 @@ export default class programReviewRepository {
     if (!review) throw new Exception('Review not found');
     return review;
   };
-  static getReviewsByAccountId = async (accountId: string) => {
-    const reviews = await prisma.coachReviews.findMany({
+  static getReviewsByProgramId = async (programId: string) => {
+    const reviews = await prisma.programReview.findMany({
       where: {
-        coachId: accountId,
+        programId: programId,
       },
       include: {
-        user: {
+        reviewAuthor: {
           select: {
             firstName: true,
             lastName: true,
@@ -46,8 +45,8 @@ export default class programReviewRepository {
     });
     return reviews;
   };
-  static updateReviewById = async (reviewDto: UpdateCoachReview, reviewId: string) => {
-    const updatedReview = await prisma.coachReviews.update({
+  static updateReviewById = async (reviewDto: UpdateProgramReview, reviewId: string) => {
+    const updatedReview = await prisma.programReview.update({
       where: {
         id: reviewId,
       },
@@ -56,7 +55,7 @@ export default class programReviewRepository {
     return updatedReview;
   };
   static deleteReviewById = async (reviewId: string) => {
-    const deletedReview = await prisma.coachReviews.delete({
+    const deletedReview = await prisma.programReview.delete({
       where: {
         id: reviewId,
       },

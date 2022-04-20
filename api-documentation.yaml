@@ -163,8 +163,50 @@ paths:
             schema:
               type: object
               properties:
-                bio:
+                title:
                   type: string
+                description:
+                  type: string
+                imgUrl:
+                  type: string
+                price:
+                  type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
+                  
       tags:
         - Program
       responses:
@@ -187,10 +229,49 @@ paths:
             schema:
               type: object
               properties:
+                title:
+                  type: string
                 description:
                   type: string
-                rating:
+                imgUrl:
+                  type: string
+                price:
                   type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
       tags:
         - Program
       responses:
@@ -227,8 +308,49 @@ paths:
             schema:
               type: object
               properties:
-                bio:
+                title:
                   type: string
+                description:
+                  type: string
+                imgUrl:
+                  type: string
+                price:
+                  type: number
+                programCategory:
+                  type: string
+                  enum:
+                    - Beginner
+                    - Intermediate
+                    - Advanced
+                weeks:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      order:
+                        type: number
+                      days:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            order:
+                              type: number
+                            exercises:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  order:
+                                    type: number
+                                  reps:
+                                    type: number
+                                  sets: 
+                                    type: number
+                                  duration:
+                                    type: number
+                                  exerciseId:
+                                    type: string
       tags:
         - Program
       responses:

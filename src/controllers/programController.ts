@@ -58,15 +58,15 @@ export default class ProgramController {
     res.send(formatResponse(deletedProgram));
   });
   static getReviews = asyncHandler(async (req, res) => {
-    const accountId = req.params.id;
-    const profile = await ProgramReviewService.getReviews(accountId);
+    const programId = req.params.id;
+    const profile = await ProgramReviewService.getReviews(programId);
     const profileResponse = formatResponse(profile);
     res.send(profileResponse);
   });
   static postReview = asyncHandler(async (req: RequestWithAccount, res) => {
     const programReviewDto: CreateProgramReview = req.body;
     await validateDto(CreateProgramReview, programReviewDto);
-    programReviewDto.coachId = req.params.id;
+    programReviewDto.programId = req.params.id;
     programReviewDto.userId = req.account.id;
     const createdReview = await ProgramReviewService.addReview(programReviewDto);
     res.send(formatResponse(createdReview));
