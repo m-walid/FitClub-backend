@@ -11,10 +11,6 @@ const includeBody = {
 };
 export default class ProgramRepository {
   static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type = ProgramType.General) => {
-    console.log(JSON.stringify(programDto));
-    console.log(accountId);
-    console.log(type);
-    
     const program = await prisma.program.create({
       data: {
         description: programDto.description,
