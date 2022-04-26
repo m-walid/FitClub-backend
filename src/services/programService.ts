@@ -12,7 +12,7 @@ export default class ProgramService {
   static getProgramDayExercises = async (dayId: string) => {
     return await ProgramRepository.getProgramDayExercisesByDayId(dayId);
   };
-  static getPrograms = async (accountId: string) => {
+  static getProgramsByAccountId = async (accountId: string) => {
     return await ProgramRepository.getProgramsByAccountId(accountId);
   };
   static updateProgram = async (programDto: ProgramDto, programId: string) => {
@@ -24,5 +24,45 @@ export default class ProgramService {
 
   static attachProgramToTrainee = async (programId: string, traineeId: string) => {
     return await ProgramRepository.attachProgramToTrainee(programId, traineeId);
+  };
+  static getProgramsForTrainee = async (traineeId: string) => {
+    return await ProgramRepository.getProgramsByTraineeId(traineeId);
+  };
+  static getProgramsForCoach = async (coachId: string) => {
+    return await ProgramRepository.getProgramsByCoachId(coachId);
+  };
+  static getProgramForTrainee = async (programId: string, traineeId: string) => {
+    const program = await ProgramRepository.getProgramByIdForTrainee(programId, traineeId);
+    return {
+      ...program,
+      weeks: program.weeks.map((week) => {
+        let isWeekDone = true;
+        const days = week.days.map((day) => {
+          let isDayDone = true;
+          const exercises = day.exercises.map((exercise) => {
+            let isExerciseDone = true;
+            if (exercise.userProgress.length === 0) {
+              isDayDone = false;
+              isWeekDone = false;
+              isExerciseDone = false;
+              return {
+                ...exercise,
+                isDone: isExerciseDone,
+              };
+            }
+          });
+          return {
+            ...day,
+            exercises,
+            isDone: isDayDone,
+          };
+        });
+        return {
+          ...week,
+          days,
+          isDone: isWeekDone,
+        };
+      }),
+    };
   };
 }

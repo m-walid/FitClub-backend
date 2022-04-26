@@ -11,6 +11,10 @@ const includeBody = {
 };
 export default class ProgramRepository {
   static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type = ProgramType.General) => {
+    console.log(JSON.stringify(programDto));
+    console.log(accountId);
+    console.log(type);
+    
     const program = await prisma.program.create({
       data: {
         description: programDto.description,
@@ -63,6 +67,42 @@ export default class ProgramRepository {
     if (!program) throw new Exception('Program not found');
     return program;
   };
+  static getProgramByIdForTrainee = async (programId: string, traineeId: string) => {
+    const program = await prisma.program.findUnique({
+      where: {
+        id: programId,
+      },
+      include: {
+        weeks: {
+          include: {
+            days: {
+              include: {
+                exercises: {
+                  include: {
+                    exercise: {
+                      select: {
+                        id: true,
+                        title: true,
+                        imgUrl: true,
+                      },
+                    },
+                    userProgress: {
+                      where: {
+                        userId: traineeId,
+                        programId: programId,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!program) throw new Exception('Program not found');
+    return program;
+  };
   static getProgramDayExercisesByDayId = async (dayId: string) => {
     const day = await prisma.programDay.findUnique({
       where: {
@@ -74,6 +114,8 @@ export default class ProgramRepository {
             exercise: {
               select: {
                 id: true,
+                title: true,
+                imgUrl: true,
               },
             },
           },
@@ -157,5 +199,30 @@ export default class ProgramRepository {
       },
     });
     return program;
+  };
+
+  static getProgramsByTraineeId = async (traineeId: string) => {
+    const programs = await prisma.userPrograms.findMany({
+      where: {
+        user: {
+          id: traineeId,
+        },
+      },
+      include: {
+        program: {
+          include: includeBody,
+        },
+      },
+    });
+    return programs;
+  };
+  static getProgramsByCoachId = async (coachId: string) => {
+    const programs = await prisma.program.findMany({
+      where: {
+        coachId: coachId,
+      },
+      include: includeBody,
+    });
+    return programs;
   };
 }

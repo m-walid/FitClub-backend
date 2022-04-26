@@ -6,6 +6,7 @@ import TraineeDto from '@/dtos/traineeDto';
 import validateDto from '@/dtos/validate';
 import TraineeUpdateDto from '@/dtos/traineeUpdateDto';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
+import ProgramService from '@/services/programService';
 
 export default class TraineeController {
   static addTrainee = asyncHandler(async (req: RequestWithAccount, res) => {
@@ -32,5 +33,12 @@ export default class TraineeController {
     const profile = await traineeProfileService.updateTrainee(traineeUpdateDto);
     const profileResponse = formatResponse(profile);
     res.send(profileResponse);
+  });
+
+  static getTraineePrograms = asyncHandler(async (req: RequestWithAccount, res) => {
+    const traineeId = req.account.id;
+    const programs = await ProgramService.getProgramsForTrainee(traineeId);
+    const programsResponse = formatResponse(programs);
+    res.send(programsResponse);
   });
 }

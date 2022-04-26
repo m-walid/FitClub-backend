@@ -90,15 +90,14 @@ model UserPrograms {
 }
 
 model Exercise {
-  id             String         @id @default(uuid())
+  id             String        @id @default(uuid())
   title          String
   description    String
   videoUrl       String
   imgUrl         String
-  createdBy      Account        @relation(fields: [coachId], references: [id])
+  createdBy      Account       @relation(fields: [coachId], references: [id])
   coachId        String
   includedInDays DayExercise[]
-  userProgress   UserProgress[]
 }
 
 model ProgramWeek {
@@ -122,30 +121,31 @@ model ProgramDay {
 }
 
 model DayExercise {
-  day        ProgramDay @relation(fields: [dayId], references: [id], onDelete: Cascade)
-  dayId      String
-  exercise   Exercise   @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-  exerciseId String
-  order      Int
-  reps       Int?
-  sets       Int?
-  duration   Int?
+  id           String         @id @default(uuid())
+  day          ProgramDay     @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  dayId        String
+  exercise     Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  exerciseId   String
+  order        Int
+  reps         Int?
+  sets         Int?
+  duration     Int?
+  userProgress UserProgress[]
 
-  @@id([dayId, exerciseId])
   @@unique([dayId, order])
 }
 
 model UserProgress {
-  id              String   @id @default(uuid())
-  userId          String
-  user            Account  @relation(fields: [userId], references: [id])
-  programId       String
-  currentProgram  Program  @relation(fields: [programId], references: [id])
-  exerciseId      String
-  currentExercise Exercise @relation(fields: [exerciseId], references: [id])
-  updatedAt       DateTime @default(now())
-  dayNo           Int
-  exerciseNo      Int
+  id             String      @id @default(uuid())
+  userId         String
+  user           Account     @relation(fields: [userId], references: [id])
+  programId      String
+  currentProgram Program     @relation(fields: [programId], references: [id])
+  dayExerciseId  String
+  dayExercise    DayExercise @relation(fields: [dayExerciseId], references: [id])
+  createdAt      DateTime    @default(now())
+
+  @@unique([userId, dayExerciseId])
 }
 
 model ProgramRequest {

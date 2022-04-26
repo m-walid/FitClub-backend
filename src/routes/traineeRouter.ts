@@ -6,6 +6,7 @@ import { Role } from '@utils/enums/role.enum';
 const traineeRouter = Router();
 
 traineeRouter.post('/', [auth, roleAuth(Role.TRAINEE), TraineeController.addTrainee]);
+traineeRouter.get('/programs', [auth, roleAuth(Role.TRAINEE), TraineeController.getTraineePrograms]);
 traineeRouter.get('/:id', [auth, TraineeController.getTrainee]);
 traineeRouter.patch('/:id', [auth, TraineeController.updateTrainee]);
 

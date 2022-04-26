@@ -1,5 +1,5 @@
 @host = http://localhost:3000/api/v1
-@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZGM2NzU5ZjUtYWVjNy00MTViLTkxOGUtMTQyOGIwYTU0YjdlIiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY0OTU5OTM3MSwiZXhwIjoxNjUwMjA0MTcxfQ.ZXVS8_ojANQgxfEwn2EAOpTzmTfEoGHsoogK3Umu1qE
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiMjRiMjA0OWYtMjEzMC00MTc3LWExOTYtZTQyMDdhZDhkNWI2Iiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY1MTAwOTc5MSwiZXhwIjoxNjUxNjE0NTkxfQ.65QNhFI26f4PERJT6WOV11XgUXjKfT9i4lCw1TrMB2U
 @programId =337f5485-35d9-48b2-b3e9-7d6b3c9fbf78
 @dayId=1aac8c50-3d3e-4a51-b50c-cc181d675cbd
 ###
@@ -9,67 +9,66 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "title":"Test Program",              
-    "description":"lorem sadkljferijflksf",                
-    "imgUrl":"test",         
-    "weeks":[
-        {
-            "order":1,
-            "days":[
-                {
-                    "order":1,
-                    "exercises":[
-                        {
-                            "order":1,
-                            "reps":5,
-                            "sets":10,
-                            "exerciseId":"5ad9d9f0-3214-4018-924d-d4087773eb45"
-                        }
-                    ]
-                },
-                {
-                    "order":2,
-                    "exercises":[
-                        {
-                            "order":1,
-                            "reps":5,
-                            "sets":10,
-                            "exerciseId":"5ad9d9f0-3214-4018-924d-d4087773eb45"
-                        }
-                    ]
-                }
-
-            ]
-        },
-        {
-            "order":2,
-            "days":[
-                {
-                    "order":1,
-                    "exercises":[
-                        {
-                            "order":1,
-                            "reps":5,
-                            "sets":10,
-                            "exerciseId":"5ad9d9f0-3214-4018-924d-d4087773eb45"
-                        }
-                    ]
-                },
-                {
-                    "order":2,
-                    "exercises":[
-                        {
-                            "order":1,
-                            "reps":5,
-                            "sets":10,
-                            "exerciseId":"5ad9d9f0-3214-4018-924d-d4087773eb45"
-                        }
-                    ]
-                }
-
-            ]
-        }
-    ]
+   "title":"Test Program",
+   "description":"lorem sadkljferijflksf",
+   "imgUrl":"test",
+   "price":1999,
+   "weeks":[
+      {
+         "order":1,
+         "days":[
+            {
+               "order":1,
+               "exercises":[
+                  {
+                     "order":1,
+                     "reps":5,
+                     "sets":10,
+                     "exerciseId":"4e8f3bab-56dc-47db-b5e6-c6656d9a7e4a"
+                  }
+               ]
+            },
+            {
+               "order":2,
+               "exercises":[
+                  {
+                     "order":1,
+                     "reps":5,
+                     "sets":10,
+                     "exerciseId":"4e8f3bab-56dc-47db-b5e6-c6656d9a7e4a"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "order":2,
+         "days":[
+            {
+               "order":1,
+               "exercises":[
+                  {
+                     "order":1,
+                     "reps":5,
+                     "sets":10,
+                     "exerciseId":"4e8f3bab-56dc-47db-b5e6-c6656d9a7e4a"
+                  }
+               ]
+            },
+            {
+               "order":2,
+               "exercises":[
+                  {
+                     "order":1,
+                     "reps":5,
+                     "sets":10,
+                     "exerciseId":"4e8f3bab-56dc-47db-b5e6-c6656d9a7e4a"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
 }
 ###
 // update program
