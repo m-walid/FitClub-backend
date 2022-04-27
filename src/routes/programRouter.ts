@@ -5,7 +5,10 @@ import { Role } from '@/utils/enums/role.enum';
 import ProgramController from '@/controllers/programController';
 const programRouter = Router();
 programRouter.use(auth);
-programRouter.route('/').post([roleAuth(Role.COACH), ProgramController.postProgram]);
+programRouter
+  .route('/')
+  .post([roleAuth(Role.COACH), ProgramController.postProgram])
+  .get(ProgramController.getPrograms);
 programRouter.route('/:requestId').post([roleAuth(Role.COACH), ProgramController.postProgramWithRequest]);
 programRouter
   .route('/:id')

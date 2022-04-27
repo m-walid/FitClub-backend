@@ -64,9 +64,14 @@ export default class ProgramRepository {
     return program;
   };
   static getProgramByIdForTrainee = async (programId: string, traineeId: string) => {
-    const program = await prisma.program.findUnique({
+    const program = await prisma.program.findFirst({
       where: {
         id: programId,
+        UserPrograms: {
+          some: {
+            userId: traineeId,
+          },
+        },
       },
       include: {
         weeks: {
@@ -121,15 +126,7 @@ export default class ProgramRepository {
     if (!day) throw new Exception('day not found');
     return day;
   };
-  static getProgramsByAccountId = async (accountId: string) => {
-    const programs = await prisma.program.findMany({
-      where: {
-        coachId: accountId,
-      },
-      include: includeBody,
-    });
-    return programs;
-  };
+
   static updateProgramById = async (programDto: ProgramDto, programId: string) => {
     const [, updatedProgram] = await prisma.$transaction([
       prisma.programWeek.deleteMany({
@@ -200,14 +197,13 @@ export default class ProgramRepository {
   static getProgramsByTraineeId = async (traineeId: string) => {
     const programs = await prisma.userPrograms.findMany({
       where: {
-        user: {
-          id: traineeId,
-        },
+        userId: traineeId,
       },
       include: {
-        program: {
-          include: includeBody,
-        },
+        program: true,
+        // {
+        //   include: includeBody,
+        // },
       },
     });
     return programs;
@@ -217,7 +213,7 @@ export default class ProgramRepository {
       where: {
         coachId: coachId,
       },
-      include: includeBody,
+      // include: includeBody,
     });
     return programs;
   };

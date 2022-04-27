@@ -5,7 +5,7 @@ info:
   title: 💪FitClub
 servers:
   - url: http://ec2-13-36-165-47.eu-west-3.compute.amazonaws.com:3000/api/v1
-  - url: http:localhost:3000/api/v1
+  - url: http://localhost:3000/api/v1
 security:
   - bearerAuth: []
 paths:
@@ -212,6 +212,13 @@ paths:
       responses:
         200:
           description: Program created successfully
+    get:
+      summary: Retrieve all programs for coach or trainee
+      tags:
+        - Program
+      responses:
+        200:
+          description: Programs retrieved successfully
   /programs/{requestId}:
     post:
       summary: Add program to specific user
@@ -279,7 +286,7 @@ paths:
           description: Program Added Successfully
   /programs/{id}:
     get:
-      summary: Get a specific program
+      summary: Get a specific program response is different for coach or trainee and both must have access to the program
       parameters:
         - in: path
           name: id

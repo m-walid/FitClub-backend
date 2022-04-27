@@ -7,6 +7,7 @@ import { RequestWithAccount } from '@/interfaces/authInterface';
 import ProgramRequestService from '@/services/programRequestService';
 import ProgramReviewService from '@/services/programReviewService';
 import ProgramService from '@/services/programService';
+import { Role } from '@/utils/enums/role.enum';
 import { ProgramRequestStatus } from '@prisma/client';
 import formatResponse from '@utils/formatResponse';
 import asyncHandler from 'express-async-handler';
@@ -29,11 +30,40 @@ export default class ProgramController {
     await ProgramRequestService.updateProgramRequestStatus(programRequestId, ProgramRequestStatus.Done);
     res.send(formatResponse(createdProgram));
   });
-  static getProgram = asyncHandler(async (req, res) => {
+
+  static getPrograms = asyncHandler(async (req: RequestWithAccount, res) => {
+    const role = req.account.role;
+    const accountId = req.account.id;
+    switch (role) {
+      case Role.COACH:
+        const programsForCoach = await ProgramService.getProgramsForCoach(accountId);
+        res.send(formatResponse(programsForCoach));
+        break;
+      case Role.TRAINEE:
+        const programsForTrainee = await ProgramService.getProgramsForTrainee(accountId);
+        res.send(formatResponse(programsForTrainee));
+        break;
+      default:
+        throw new UnauthorizedException();
+    }
+  });
+  static getProgram = asyncHandler(async (req: RequestWithAccount, res) => {
     const programId = req.params.id;
-    // TODO: VALIDATION IF SUBSCRIBED USER OR OWNER OF PROGRAM
-    const program = await ProgramService.getProgram(programId);
-    res.send(formatResponse(program));
+    const role = req.account.role;
+    switch (role) {
+      case Role.COACH:
+        const program = await ProgramService.getProgram(programId);
+        if (program.coachId !== req.account.id) throw new UnauthorizedException();
+        res.send(formatResponse(program));
+        break;
+      case Role.TRAINEE:
+        const traineeId = req.account.id;
+        const programForTrainee = await ProgramService.getProgramForTrainee(programId, traineeId);
+        res.send(formatResponse(programForTrainee));
+        break;
+      default:
+        throw new UnauthorizedException();
+    }
   });
   static getProgramDayExercises = asyncHandler(async (req, res) => {
     const dayId = req.params.dayId;

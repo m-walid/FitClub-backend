@@ -12,9 +12,7 @@ export default class ProgramService {
   static getProgramDayExercises = async (dayId: string) => {
     return await ProgramRepository.getProgramDayExercisesByDayId(dayId);
   };
-  static getProgramsByAccountId = async (accountId: string) => {
-    return await ProgramRepository.getProgramsByAccountId(accountId);
-  };
+
   static updateProgram = async (programDto: ProgramDto, programId: string) => {
     return await ProgramRepository.updateProgramById(programDto, programId);
   };

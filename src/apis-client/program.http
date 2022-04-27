@@ -3,6 +3,10 @@
 @programId =337f5485-35d9-48b2-b3e9-7d6b3c9fbf78
 @dayId=1aac8c50-3d3e-4a51-b50c-cc181d675cbd
 ###
+GET {{host}}/programs/
+content-type: application/json
+Authorization: Bearer {{token}}
+###
 // post program
 POST {{host}}/programs/
 content-type: application/json
