@@ -536,6 +536,21 @@ paths:
       responses:
         200:
           description: Coach with that specific Id edited successfully
+  /coaches/{id}/programs:
+    get:
+      summary: Get a specific coach's programs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: enter ID of the coach
+          schema:
+            type: string
+      tags:
+        - Coach
+      responses:
+        200:
+          description: Coach's programs with that specific Id returned
   /coaches/{id}/exercises:
     get:
       summary: Get a specific coach exercises
@@ -872,7 +887,7 @@ paths:
             schema:
               type: object
               properties:
-                traineeId:
+                coachId:
                   type: string
                 programId:
                   type: string
@@ -920,7 +935,7 @@ paths:
             schema:
               type: object
               properties:
-                traineeId:
+                coachId:
                   type: string
                 programId:
                   type: string

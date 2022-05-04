@@ -10,6 +10,7 @@ import CoachReviewService from '@/services/coachReviewService';
 import CreateCoachReview from '@/dtos/createCoachReview';
 import UpdateCoachReview from '@/dtos/updateCoachReview';
 import ExerciseService from '@/services/exerciseService';
+import ProgramService from '@/services/programService';
 
 export default class CoachController {
   static addCoach = asyncHandler(async (req: RequestWithAccount, res) => {
@@ -73,5 +74,11 @@ export default class CoachController {
     if (accountId !== req.account.id) throw new UnauthorizedException();
     const exercises = await ExerciseService.getExercises(req.account.id);
     res.send(formatResponse(exercises));
+  });
+
+  static getPrograms = asyncHandler(async (req: RequestWithAccount, res) => {
+    const coachId = req.params.id;
+    const programs = await ProgramService.getGeneralProgramsForCoach(coachId);
+    res.send(formatResponse(programs));
   });
 }

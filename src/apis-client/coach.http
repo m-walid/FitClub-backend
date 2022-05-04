@@ -1,7 +1,7 @@
 @host = http://localhost:3000/api/v1
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiZDlhNTFkMzUtOTM5My00Mjc3LTljMDAtZjA1NDliM2M1ZjE5Iiwicm9sZSI6IlRSQUlORUUifSwiaWF0IjoxNjQ2MjczNDI5LCJleHAiOjE2NDY4NzgyMjl9.eVBDahpyO84qseuJkrVOjLq3tfMnRdZWfwHBv2HVPjg
-@id = d9a51d35-9393-4277-9c00-f0549b3c5f19
-@coachId = c0ce7b2b-38cb-432a-a85f-271476c3833f
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiMjRiMjA0OWYtMjEzMC00MTc3LWExOTYtZTQyMDdhZDhkNWI2Iiwicm9sZSI6IkNPQUNIIn0sImlhdCI6MTY1MTAwOTc5MSwiZXhwIjoxNjUxNjE0NTkxfQ.65QNhFI26f4PERJT6WOV11XgUXjKfT9i4lCw1TrMB2U
+@id = 24b2049f-2130-4177-a196-e4207ad8d5b6
+@coachId = 24b2049f-2130-4177-a196-e4207ad8d5b6
 @reviewId = 608f36cc-9afa-4f55-90a5-bd7fb21169ba
 
 // create coach profile
@@ -67,4 +67,8 @@ Authorization: Bearer {{token}}
 ###
 // get exercises
 GET {{host}}/coaches/{{coachId}}/exercises
+Authorization: Bearer {{token}}
+###
+// get programs
+GET {{host}}/coaches/{{coachId}}/programs
 Authorization: Bearer {{token}}

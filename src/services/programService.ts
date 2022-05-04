@@ -43,11 +43,12 @@ export default class ProgramService {
               isDayDone = false;
               isWeekDone = false;
               isExerciseDone = false;
-              return {
-                ...exercise,
-                isDone: isExerciseDone,
-              };
             }
+            delete exercise.userProgress;
+            return {
+              ...exercise,
+              isDone: isExerciseDone,
+            };
           });
           return {
             ...day,
@@ -62,5 +63,9 @@ export default class ProgramService {
         };
       }),
     };
+  };
+
+  static getGeneralProgramsForCoach = async (coachId: string) => {
+    return await ProgramRepository.getGeneralProgramsByCoachId(coachId);
   };
 }

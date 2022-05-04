@@ -217,4 +217,37 @@ export default class ProgramRepository {
     });
     return programs;
   };
+
+  static getGeneralProgramsByCoachId = async (coachId: string) => {
+    const programs = await prisma.program.findMany({
+      where: {
+        coachId: coachId,
+        type: ProgramType.General,
+      },
+      include: {
+        _count: {
+          select: {
+            programReviews: true,
+            UserPrograms: true,
+          },
+        },
+        programReviews: {
+          select: {
+            rating: true,
+          },
+        },
+      },
+      orderBy: {
+        programReviews: {
+          _count: 'desc',
+        },
+      },
+    });
+    programs.map((program: any) => {
+      program.rating = program.programReviews.reduce((acc, curr) => acc + curr.rating, 0) / program.programReviews.length;
+      delete program.programReviews;
+      return program;
+    });
+    return programs;
+  };
 }

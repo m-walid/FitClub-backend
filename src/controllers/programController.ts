@@ -68,8 +68,8 @@ export default class ProgramController {
   static getProgramDayExercises = asyncHandler(async (req, res) => {
     const dayId = req.params.dayId;
     // TODO: VALIDATION IF SUBSCRIBED USER OR OWNER OF PROGRAM
-    const program = await ProgramService.getProgramDayExercises(dayId);
-    res.send(formatResponse(program));
+    const dayExercises = await ProgramService.getProgramDayExercises(dayId);
+    res.send(formatResponse(dayExercises));
   });
   static updateProgram = asyncHandler(async (req: RequestWithAccount, res) => {
     const programId = req.params.id;
