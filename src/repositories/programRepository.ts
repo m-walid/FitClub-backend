@@ -236,6 +236,14 @@ export default class ProgramRepository {
             rating: true,
           },
         },
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            imgUrl: true,
+          },
+        },
       },
       orderBy: {
         programReviews: {
