@@ -42,6 +42,7 @@ export default class CoachProfileRepository {
     const coaches = await prisma.account.findMany({
       where: {
         role: Role.COACH,
+        isVerified: true,
       },
       orderBy: {
         averageRate: 'desc',
@@ -57,6 +58,7 @@ export default class CoachProfileRepository {
     from "Account" a 
     where lower(concat(a."firstName",' ', a."lastName")) like lower(${query})
     and a."role" = ${Role.COACH}
+    and a."isVerified" = true
     order by a."averageRate" desc;
     `;
     return coaches;
