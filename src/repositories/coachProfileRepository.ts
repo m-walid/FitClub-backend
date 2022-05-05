@@ -37,4 +37,27 @@ export default class CoachProfileRepository {
     profile.account.password = null;
     return profile;
   };
+  static topRatedCoaches = async () => {
+    const coaches = await prisma.$queryRaw`
+    select a.id, a."firstName", a."lastName",a."imgUrl", avg(cr.rating) as avg_rating
+    from "Account" a 
+    join "CoachReviews" cr on cr."coachId"  = a.id  
+    group by a.id
+    order by avg_rating desc 
+    limit 10;
+    `;
+    return coaches;
+  };
+  static searchCoaches = async (query) => {
+    query = `%${query}%`;
+    const coaches = await prisma.$queryRaw`
+    select a.id, a."firstName", a."lastName",a."imgUrl", avg(cr.rating) as avg_rating
+    from "Account" a 
+    join "CoachReviews" cr on cr."coachId"  = a.id  
+    where lower(concat(a."firstName",' ', a."lastName")) like lower(${query})
+    group by a.id
+    order by avg_rating desc;
+    `;
+    return coaches;
+  };
 }

@@ -68,4 +68,20 @@ export default class ProgramService {
   static getGeneralProgramsForCoach = async (coachId: string) => {
     return await ProgramRepository.getGeneralProgramsByCoachId(coachId);
   };
+
+  static getDiscoveryPrograms = async () => {
+    const [topRated, mostPopular, recentlyAdded] = await Promise.all([
+      ProgramRepository.topRatedPrograms(),
+      ProgramRepository.mostPopularPrograms(),
+      ProgramRepository.mostRecentPrograms(),
+    ]);
+    return {
+      topRated,
+      mostPopular,
+      recentlyAdded,
+    };
+  };
+  static searchPrograms = async (query: string) => {
+    return await ProgramRepository.searchPrograms(query);
+  };
 }

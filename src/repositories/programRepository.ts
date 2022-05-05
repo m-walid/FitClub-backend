@@ -250,4 +250,84 @@ export default class ProgramRepository {
     });
     return programs;
   };
+
+  static mostPopularPrograms = async () => {
+    const programs = await prisma.program.findMany({
+      where: {
+        type: ProgramType.General,
+      },
+      include: {
+        _count: {
+          select: {
+            UserPrograms: true,
+          },
+        },
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      orderBy: {
+        UserPrograms: {
+          _count: 'desc',
+        },
+      },
+      take: 10,
+    });
+    return programs;
+  };
+
+  static mostRecentPrograms = async () => {
+    const programs = await prisma.program.findMany({
+      where: {
+        type: ProgramType.General,
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
+    return programs;
+  };
+  static topRatedPrograms = async () => {
+    const programs = await prisma.$queryRaw`
+    select p.*, avg(pr.rating) as avg_rating,
+      jsonb_build_object(
+        'id', c.id,
+        'firstName', c."firstName",
+        'lastName', c."lastName" 
+        )  as "createdBy"
+    from "Program" p
+    join "ProgramReview" pr on pr."programId"  = p.id
+    join "Account" c on p."coachId" = c.id 
+    group by p.id, c.id
+    order by avg_rating desc 
+    limit 10;`;
+    return programs;
+  };
+  static searchPrograms = async (query: string) => {
+    const programs = await prisma.program.findMany({
+      where: {
+        type: ProgramType.General,
+        title: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      take: 10,
+    });
+    return programs;
+  };
 }

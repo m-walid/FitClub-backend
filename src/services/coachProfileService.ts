@@ -13,4 +13,13 @@ export default class CoachProfileService {
     const profile = await coachProfileRepository.updateProfile(editBody);
     return profile;
   };
+  static getTopRatedCoaches = async () => {
+    const topRatedCoaches = await coachProfileRepository.topRatedCoaches();
+    return topRatedCoaches;
+  };
+
+  static searchCoaches = async (query) => {
+    const coaches = await coachProfileRepository.searchCoaches(query);
+    return coaches;
+  };
 }

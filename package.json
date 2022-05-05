@@ -10,7 +10,8 @@
     "start:dev": "cross-env NODE_ENV=prod nodemon",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "prisma:migrate:test": "dotenv -e test.env -- npx prisma migrate dev",
-    "prisma:migrate:prod": "dotenv -e prod.env -- npx prisma migrate dev"
+    "prisma:migrate:prod": "dotenv -e prod.env -- npx prisma migrate dev",
+    "prisma:studio:prod": "dotenv -e prod.env -- npx prisma studio --port 7777"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"

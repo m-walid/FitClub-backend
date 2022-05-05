@@ -77,6 +77,7 @@ model Program {
   type           ProgramType     @default(General)
   price          Decimal         @default(0)
   programRequest ProgramRequest?
+  createdAt      DateTime        @default(now())
 }
 
 model UserPrograms {

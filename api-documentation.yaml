@@ -96,7 +96,30 @@ paths:
       responses:
         200:
           description: OTP Code Sent Successfully
-          
+
+  /discovery:
+    get:
+      summary: Get discovery page data
+      tags:
+        - Discovery
+      responses:
+        200:
+          description: Discovery page data returned successfully
+  /discovery/search:
+    get:
+      summary: Search programs and coaches
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Search query
+      tags:
+        - Discovery
+      responses:
+        200:
+          description: Programs and coaches returned successfully
   /accounts/{id}:
     get:
       summary: Retrieve account by ID
@@ -200,13 +223,13 @@ paths:
                                     type: number
                                   reps:
                                     type: number
-                                  sets: 
+                                  sets:
                                     type: number
                                   duration:
                                     type: number
                                   exerciseId:
                                     type: string
-                  
+
       tags:
         - Program
       responses:
@@ -273,7 +296,7 @@ paths:
                                     type: number
                                   reps:
                                     type: number
-                                  sets: 
+                                  sets:
                                     type: number
                                   duration:
                                     type: number
@@ -352,7 +375,7 @@ paths:
                                     type: number
                                   reps:
                                     type: number
-                                  sets: 
+                                  sets:
                                     type: number
                                   duration:
                                     type: number
