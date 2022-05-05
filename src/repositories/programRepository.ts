@@ -9,6 +9,15 @@ const includeBody = {
     },
   },
 };
+const createByBody = {
+  select: {
+    id: true,
+    firstName: true,
+    lastName: true,
+    imgUrl: true,
+    averageRate: true,
+  },
+};
 export default class ProgramRepository {
   static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type = ProgramType.General) => {
     const program = await prisma.program.create({
@@ -218,6 +227,26 @@ export default class ProgramRepository {
     return programs;
   };
 
+  static updateProgramCounts = async (programId: string) => {
+    const counts = await prisma.programReview.aggregate({
+      where: {
+        programId: programId,
+      },
+      _count: true,
+      _avg: {
+        rating: true,
+      },
+    });
+    await prisma.program.update({
+      where: {
+        id: programId,
+      },
+      data: {
+        reviewsCount: counts._count,
+        averageRate: Math.round(counts._avg.rating),
+      },
+    });
+  };
   static getGeneralProgramsByCoachId = async (coachId: string) => {
     const programs = await prisma.program.findMany({
       where: {
@@ -227,34 +256,14 @@ export default class ProgramRepository {
       include: {
         _count: {
           select: {
-            programReviews: true,
             UserPrograms: true,
           },
         },
-        programReviews: {
-          select: {
-            rating: true,
-          },
-        },
-        createdBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            imgUrl: true,
-          },
-        },
+        createdBy: createByBody,
       },
       orderBy: {
-        programReviews: {
-          _count: 'desc',
-        },
+        averageRate: 'desc',
       },
-    });
-    programs.map((program: any) => {
-      program.rating = program.programReviews.reduce((acc, curr) => acc + curr.rating, 0) / program.programReviews.length;
-      delete program.programReviews;
-      return program;
     });
     return programs;
   };
@@ -270,13 +279,7 @@ export default class ProgramRepository {
             UserPrograms: true,
           },
         },
-        createdBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
+        createdBy: createByBody,
       },
       orderBy: {
         UserPrograms: {
@@ -294,13 +297,7 @@ export default class ProgramRepository {
         type: ProgramType.General,
       },
       include: {
-        createdBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
+        createdBy: createByBody,
       },
       orderBy: {
         createdAt: 'desc',
@@ -310,19 +307,18 @@ export default class ProgramRepository {
     return programs;
   };
   static topRatedPrograms = async () => {
-    const programs = await prisma.$queryRaw`
-    select p.*, avg(pr.rating) as avg_rating,
-      jsonb_build_object(
-        'id', c.id,
-        'firstName', c."firstName",
-        'lastName', c."lastName" 
-        )  as "createdBy"
-    from "Program" p
-    join "ProgramReview" pr on pr."programId"  = p.id
-    join "Account" c on p."coachId" = c.id 
-    group by p.id, c.id
-    order by avg_rating desc 
-    limit 10;`;
+    const programs = await prisma.program.findMany({
+      where: {
+        type: ProgramType.General,
+      },
+      include: {
+        createdBy: createByBody,
+      },
+      orderBy: {
+        averageRate: 'desc',
+      },
+      take: 10,
+    });
     return programs;
   };
   static searchPrograms = async (query: string) => {
@@ -337,5 +333,25 @@ export default class ProgramRepository {
       take: 10,
     });
     return programs;
+  };
+
+  static hasAccessToProgram = async (programId: string, userId: string) => {
+    const [program, userProgram] = await Promise.all([
+      prisma.program.findFirst({
+        where: {
+          id: programId,
+          coachId: userId,
+        },
+      }),
+      prisma.userPrograms.findUnique({
+        where: {
+          programId_userId: {
+            programId,
+            userId,
+          },
+        },
+      }),
+    ]);
+    return !!program || !!userProgram;
   };
 }

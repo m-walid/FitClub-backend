@@ -1,5 +1,6 @@
 import { prisma } from '@config';
 import Exception from '@exceptions/Exception';
+import { Role } from '@prisma/client';
 
 export default class CoachProfileRepository {
   static addProfile = async (profileDto) => {
@@ -38,26 +39,46 @@ export default class CoachProfileRepository {
     return profile;
   };
   static topRatedCoaches = async () => {
-    const coaches = await prisma.$queryRaw`
-    select a.id, a."firstName", a."lastName",a."imgUrl", avg(cr.rating) as avg_rating
-    from "Account" a 
-    join "CoachReviews" cr on cr."coachId"  = a.id  
-    group by a.id
-    order by avg_rating desc 
-    limit 10;
-    `;
+    const coaches = await prisma.account.findMany({
+      where: {
+        role: Role.COACH,
+      },
+      orderBy: {
+        averageRate: 'desc',
+      },
+      take: 10,
+    });
     return coaches;
   };
   static searchCoaches = async (query) => {
     query = `%${query}%`;
     const coaches = await prisma.$queryRaw`
-    select a.id, a."firstName", a."lastName",a."imgUrl", avg(cr.rating) as avg_rating
+    select a.id, a."firstName", a."lastName",a."imgUrl",a."averageRate"
     from "Account" a 
-    join "CoachReviews" cr on cr."coachId"  = a.id  
     where lower(concat(a."firstName",' ', a."lastName")) like lower(${query})
-    group by a.id
-    order by avg_rating desc;
+    and a."role" = ${Role.COACH}
+    order by a."averageRate" desc;
     `;
     return coaches;
+  };
+
+  static updateCoachCounts = async (id) => {
+    const counts = await prisma.coachReviews.aggregate({
+      where: {
+        coachId: id,
+      },
+      _avg: {
+        rating: true,
+      },
+    });
+    const avg = Math.round(counts._avg.rating);
+    await prisma.account.update({
+      where: {
+        id,
+      },
+      data: {
+        averageRate: avg,
+      },
+    });
   };
 }

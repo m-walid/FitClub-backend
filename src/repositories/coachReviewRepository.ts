@@ -2,12 +2,14 @@ import { prisma } from '@/config/config';
 import CreateCoachReview from '@/dtos/createCoachReview';
 import UpdateCoachReview from '@/dtos/updateCoachReview';
 import Exception from '@/exceptions/Exception';
+import CoachProfileRepository from './coachProfileRepository';
 
 export default class coachReviewRepository {
   static addReviewByAccountId = async (reviewDto: CreateCoachReview) => {
     const review = await prisma.coachReviews.create({
       data: reviewDto,
     });
+    await CoachProfileRepository.updateCoachCounts(reviewDto.coachId);
     return review;
   };
   static getReveiwById = async (reviewId: string) => {
@@ -52,6 +54,8 @@ export default class coachReviewRepository {
       },
       data: reviewDto,
     });
+    await CoachProfileRepository.updateCoachCounts(updatedReview.coachId);
+
     return updatedReview;
   };
   static deleteReviewById = async (reviewId: string) => {
@@ -60,6 +64,7 @@ export default class coachReviewRepository {
         id: reviewId,
       },
     });
+    await CoachProfileRepository.updateCoachCounts(deletedReview.coachId);
     return deletedReview;
   };
 }

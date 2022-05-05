@@ -2,12 +2,14 @@ import { prisma } from '@/config/config';
 import CreateProgramReview from '@/dtos/createProgramReview';
 import UpdateProgramReview from '@/dtos/updateProgramReview';
 import Exception from '@/exceptions/Exception';
+import ProgramRepository from './programRepository';
 
 export default class programReviewRepository {
   static addReviewByProgramId = async (reviewDto: CreateProgramReview) => {
     const review = await prisma.programReview.create({
       data: reviewDto,
     });
+    await ProgramRepository.updateProgramCounts(reviewDto.programId);
     return review;
   };
   static getReveiwById = async (reviewId: string) => {
@@ -52,6 +54,7 @@ export default class programReviewRepository {
       },
       data: reviewDto,
     });
+    await ProgramRepository.updateProgramCounts(updatedReview.programId);
     return updatedReview;
   };
   static deleteReviewById = async (reviewId: string) => {
@@ -60,6 +63,7 @@ export default class programReviewRepository {
         id: reviewId,
       },
     });
+    await ProgramRepository.updateProgramCounts(deletedReview.programId);
     return deletedReview;
   };
 }

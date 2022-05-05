@@ -18,6 +18,7 @@ model Account {
   firstName                String
   lastName                 String
   imgUrl                   String?
+  averageRate              Int?
   coachProfile             CoachProfile?
   traineeProfile           TraineeProfile?
   createdPrograms          Program[]
@@ -70,6 +71,8 @@ model Program {
   duration       Int
   imgUrl         String
   programReviews ProgramReview[]
+  averageRate    Int?
+  reviewsCount   Int?
   weeks          ProgramWeek[]
   UserProgress   UserProgress[]
   UserPrograms   UserPrograms[]

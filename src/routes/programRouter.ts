@@ -5,6 +5,7 @@ import { Role } from '@/utils/enums/role.enum';
 import ProgramController from '@/controllers/programController';
 const programRouter = Router();
 programRouter.use(auth);
+programRouter.get('/has-access/:programId', ProgramController.hasAccessToProgram);
 programRouter
   .route('/')
   .post([roleAuth(Role.COACH), ProgramController.postProgram])

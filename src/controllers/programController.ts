@@ -13,6 +13,12 @@ import formatResponse from '@utils/formatResponse';
 import asyncHandler from 'express-async-handler';
 
 export default class ProgramController {
+  static hasAccessToProgram = asyncHandler(async (req: RequestWithAccount, res) => {
+    const programId = req.params.programId;
+    const userId = req.account.id;
+    const hasAccess = await ProgramService.hasAccessToProgram(programId, userId);
+    res.send(formatResponse({ hasAccess }));
+  });
   static postProgram = asyncHandler(async (req: RequestWithAccount, res) => {
     const programDto: ProgramDto = req.body;
     await validateDto(ProgramDto, programDto);

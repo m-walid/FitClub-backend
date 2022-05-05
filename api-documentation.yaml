@@ -242,6 +242,21 @@ paths:
       responses:
         200:
           description: Programs retrieved successfully
+  /programs/has-access/{programId}:
+    get:
+      summary: Check if user has access to program
+      parameters:
+        - in: path
+          name: programId
+          required: true
+          description: Enter ID of desired program
+          schema:
+            type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: Program access checked successfully
   /programs/{requestId}:
     post:
       summary: Add program to specific user

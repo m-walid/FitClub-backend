@@ -84,4 +84,7 @@ export default class ProgramService {
   static searchPrograms = async (query: string) => {
     return await ProgramRepository.searchPrograms(query);
   };
+  static hasAccessToProgram = async (programId: string, userId: string) => {
+    return await ProgramRepository.hasAccessToProgram(programId, userId);
+  };
 }
