@@ -330,6 +330,9 @@ export default class ProgramRepository {
           mode: 'insensitive',
         },
       },
+      include: {
+        createdBy: createByBody,
+      },
       take: 10,
     });
     return programs;
