@@ -1,4 +1,5 @@
 import ProgramDto from '@/dtos/programDto';
+import ProgramUpdateDto from '@/dtos/programUpdateDto';
 import ProgramRepository from '@/repositories/programRepository';
 import { ProgramType } from '@prisma/client';
 
@@ -13,11 +14,8 @@ export default class ProgramService {
     return await ProgramRepository.getProgramDayExercisesByDayId(dayId);
   };
 
-  static updateProgram = async (programDto: ProgramDto, programId: string) => {
+  static updateProgram = async (programDto: ProgramUpdateDto, programId: string) => {
     return await ProgramRepository.updateProgramById(programDto, programId);
-  };
-  static deleteProgram = async (programId: string) => {
-    return await ProgramRepository.deleteProgramById(programId);
   };
 
   static attachProgramToTrainee = async (programId: string, traineeId: string) => {

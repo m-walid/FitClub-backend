@@ -14,8 +14,7 @@ programRouter.route('/:requestId').post([roleAuth(Role.COACH), ProgramController
 programRouter
   .route('/:id')
   .get([ProgramController.getProgram])
-  .patch([roleAuth(Role.COACH), ProgramController.updateProgram])
-  .delete([roleAuth(Role.COACH), ProgramController.deleteProgram]);
+  .patch([roleAuth(Role.COACH), ProgramController.updateProgram]);
 programRouter.get('/:id/days/:dayId/exercises', [ProgramController.getProgramDayExercises]);
 programRouter.post('/:id/reviews', [auth, roleAuth(Role.TRAINEE), ProgramController.postReview]);
 programRouter.get('/:id/reviews', [auth, ProgramController.getReviews]);

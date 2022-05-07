@@ -1,5 +1,6 @@
 import CreateProgramReview from '@/dtos/createProgramReview';
 import ProgramDto from '@/dtos/programDto';
+import ProgramUpdateDto from '@/dtos/programUpdateDto';
 import UpdateProgramReview from '@/dtos/updateProgramReview';
 import validateDto from '@/dtos/validate';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
@@ -81,18 +82,12 @@ export default class ProgramController {
     const programId = req.params.id;
     const program = await ProgramService.getProgram(programId);
     if (program.coachId !== req.account.id) throw new UnauthorizedException();
-    const programDto: ProgramDto = req.body;
-    await validateDto(ProgramDto, programDto);
+    const programDto: ProgramUpdateDto = req.body;
+    await validateDto(ProgramUpdateDto, programDto);
     const updatedProgram = await ProgramService.updateProgram(programDto, programId);
     res.send(formatResponse(updatedProgram));
   });
-  static deleteProgram = asyncHandler(async (req: RequestWithAccount, res) => {
-    const programId = req.params.id;
-    const program = await ProgramService.getProgram(programId);
-    if (program.coachId !== req.account.id) throw new UnauthorizedException();
-    const deletedProgram = await ProgramService.deleteProgram(programId);
-    res.send(formatResponse(deletedProgram));
-  });
+
   static getReviews = asyncHandler(async (req, res) => {
     const programId = req.params.id;
     const profile = await ProgramReviewService.getReviews(programId);

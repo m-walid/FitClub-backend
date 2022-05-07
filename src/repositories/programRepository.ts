@@ -1,5 +1,6 @@
 import { prisma } from '@/config/config';
 import ProgramDto from '@/dtos/programDto';
+import ProgramUpdateDto from '@/dtos/programUpdateDto';
 import Exception from '@/exceptions/Exception';
 import ProgramType from '@utils/enums/programType.enum';
 const includeBody = {
@@ -136,61 +137,14 @@ export default class ProgramRepository {
     return day;
   };
 
-  static updateProgramById = async (programDto: ProgramDto, programId: string) => {
-    const [, updatedProgram] = await prisma.$transaction([
-      prisma.programWeek.deleteMany({
-        where: {
-          programId: programId,
-        },
-      }),
-      prisma.program.update({
-        where: {
-          id: programId,
-        },
-        data: {
-          description: programDto.description,
-          title: programDto.title,
-          price: programDto.price,
-          imgUrl: programDto.imgUrl,
-          category: programDto.category,
-          duration: programDto.weeks.length,
-          weeks: {
-            create: programDto.weeks.map((week) => {
-              return {
-                order: week.order,
-                days: {
-                  create: week.days.map((day) => {
-                    return {
-                      order: day.order,
-                      exercises: {
-                        create: day.exercises.map((exercise) => {
-                          return {
-                            exercise: { connect: { id: exercise.exerciseId } },
-                            order: exercise.order,
-                            duration: exercise.duration,
-                            sets: exercise.sets,
-                            reps: exercise.reps,
-                          };
-                        }),
-                      },
-                    };
-                  }),
-                },
-              };
-            }),
-          },
-        },
-      }),
-    ]);
-    return updatedProgram;
-  };
-  static deleteProgramById = async (programId: string) => {
-    const deletedProgram = await prisma.program.delete({
+  static updateProgramById = async (programDto: ProgramUpdateDto, programId: string) => {
+    const updatedProgram = await prisma.program.update({
       where: {
         id: programId,
       },
+      data: programDto,
     });
-    return deletedProgram;
+    return updatedProgram;
   };
 
   static attachProgramToTrainee = async (programId: string, traineeId: string) => {
