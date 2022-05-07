@@ -7,7 +7,10 @@ export default class CoachProfileService {
   };
   static getCoach = async (getBody) => {
     const profile = await coachProfileRepository.getProfile(getBody.accountId);
-    return profile;
+    const averageRate = profile.account.averageRate;
+    delete profile.account.averageRate;
+    const modifiedProfile = { ...profile, averageRate };
+    return modifiedProfile;
   };
   static updateCoach = async (editBody) => {
     const profile = await coachProfileRepository.updateProfile(editBody);
