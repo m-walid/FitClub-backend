@@ -47,6 +47,15 @@ export default class ProgramRequestRepository {
       },
       include: {
         coach: true,
+        program: {
+          select: {
+            type: true,
+            price: true,
+            title: true,
+            description: true,
+            imgUrl: true,
+          },
+        },
       },
     });
     if (!programRequest) throw new Exception('Program request not found');
