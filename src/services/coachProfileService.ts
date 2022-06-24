@@ -1,4 +1,5 @@
 import coachProfileRepository from '@/repositories/coachProfileRepository';
+import BillService from './billService';
 
 export default class CoachProfileService {
   static addCoach = async (addBody) => {
@@ -7,9 +8,11 @@ export default class CoachProfileService {
   };
   static getCoach = async (getBody) => {
     const profile = await coachProfileRepository.getProfile(getBody.accountId);
+    const coachBills = await BillService.getBillsByAccountId(profile.accountId);
+    const subscribers = new Set(coachBills.map((bill) => bill.traineeId)).size;
     const averageRate = profile.account.averageRate;
     delete profile.account.averageRate;
-    const modifiedProfile = { ...profile, averageRate };
+    const modifiedProfile = { ...profile, averageRate, subscribers };
     return modifiedProfile;
   };
   static updateCoach = async (editBody) => {
