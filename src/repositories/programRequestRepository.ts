@@ -49,6 +49,7 @@ export default class ProgramRequestRepository {
         coach: true,
         program: {
           select: {
+            id: true,
             type: true,
             price: true,
             title: true,
@@ -86,6 +87,16 @@ export default class ProgramRequestRepository {
       },
       include: {
         coach: true,
+        program: {
+          select: {
+            id: true,
+            type: true,
+            price: true,
+            title: true,
+            description: true,
+            imgUrl: true,
+          },
+        },
       },
     });
     if (!programRequests) throw new Exception('Program requests not found');
@@ -96,6 +107,18 @@ export default class ProgramRequestRepository {
     const programRequest = await prisma.programRequest.findUnique({
       where: {
         id: programRequestId,
+      },
+      include: {
+        program: {
+          select: {
+            id: true,
+            type: true,
+            price: true,
+            title: true,
+            description: true,
+            imgUrl: true,
+          },
+        },
       },
     });
     if (!programRequest) throw new Exception('Program request not found');
