@@ -84,6 +84,7 @@ export default class ProgramRepository {
         },
       },
       include: {
+        createdBy: true,
         weeks: {
           include: {
             days: {
@@ -163,7 +164,11 @@ export default class ProgramRepository {
         userId: traineeId,
       },
       include: {
-        program: true,
+        program: {
+          include: {
+            createdBy: true,
+          },
+        },
         // {
         //   include: includeBody,
         // },
