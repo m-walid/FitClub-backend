@@ -9,7 +9,7 @@ import ProgramRequestService from '@/services/programRequestService';
 import ProgramReviewService from '@/services/programReviewService';
 import ProgramService from '@/services/programService';
 import { Role } from '@/utils/enums/role.enum';
-import { ProgramRequestStatus } from '@prisma/client';
+import { ProgramRequestStatus, ProgramType } from '@prisma/client';
 import formatResponse from '@utils/formatResponse';
 import asyncHandler from 'express-async-handler';
 
@@ -33,7 +33,8 @@ export default class ProgramController {
     await validateDto(ProgramDto, programDto);
     const programRequestId = req.params.requestId;
     const coachId = req.account.id;
-    const createdProgram = await ProgramService.addProgram(programDto, coachId);
+    const createdProgram = await ProgramService.addProgram(programDto, coachId, ProgramType.Custom);
+    await ProgramRequestService.linkProgramToRequest(createdProgram.id, programRequestId);
     await ProgramRequestService.updateProgramRequestStatus(programRequestId, ProgramRequestStatus.Done);
     res.send(formatResponse(createdProgram));
   });

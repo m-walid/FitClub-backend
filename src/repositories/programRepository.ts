@@ -20,7 +20,7 @@ const createByBody = {
   },
 };
 export default class ProgramRepository {
-  static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type = ProgramType.General) => {
+  static addProgramByAccountId = async (programDto: ProgramDto, accountId: string, type: ProgramType = ProgramType.General) => {
     const program = await prisma.program.create({
       data: {
         description: programDto.description,

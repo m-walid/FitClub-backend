@@ -26,6 +26,9 @@ export default class ProgramRequestService {
   static getProgramRequestById = async (programRequestId: string) => {
     return await ProgramRequestRepository.getProgramRequestById(programRequestId);
   };
+  static linkProgramToRequest = async (programId: string, programRequestId: string) => {
+    return await ProgramRequestRepository.linkProgramToRequest(programId, programRequestId);
+  };
   static updateProgramRequestStatus = async (programRequestId: string, status: ProgramRequestStatus) => {
     return await ProgramRequestRepository.updateProgramRequestStatus(programRequestId, status);
   };

@@ -102,6 +102,18 @@ export default class ProgramRequestRepository {
     return programRequest;
   };
 
+  static linkProgramToRequest = async (programId: string, programRequestId: string) => {
+    await prisma.programRequest.update({
+      where: {
+        id: programRequestId,
+      },
+      data: {
+        program: {
+          connect: { id: programId },
+        },
+      },
+    });
+  };
   static updateProgramRequestStatus = async (programRequestId: string, status: ProgramRequestStatus) => {
     const programRequest = await prisma.programRequest.update({
       where: {
