@@ -18,7 +18,7 @@ model Account {
   firstName                String
   lastName                 String
   imgUrl                   String?
-  averageRate              Int             @default(0)
+  averageRate              Int              @default(0)
   coachProfile             CoachProfile?
   traineeProfile           TraineeProfile?
   createdPrograms          Program[]
@@ -36,6 +36,17 @@ model Account {
   coachBills               Bill[]           @relation("coachBills")
   traineeChatRooms         ChatRoom[]       @relation("chatRoomTrainee")
   coachChatRooms           ChatRoom[]       @relation("chatRoomCoach")
+  fcmToken                 String?
+  notifications            Notification[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
 model Otp {
@@ -71,8 +82,8 @@ model Program {
   duration       Int
   imgUrl         String
   programReviews ProgramReview[]
-  averageRate    Int            @default(0)
-  reviewsCount   Int            @default(0)
+  averageRate    Int             @default(0)
+  reviewsCount   Int             @default(0)
   weeks          ProgramWeek[]
   UserProgress   UserProgress[]
   UserPrograms   UserPrograms[]

@@ -176,6 +176,23 @@ paths:
       responses:
         200:
           description: Account edited Successfully
+  /accounts/fcm-token:
+    post:
+      summary: Add FCM token to account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fcmToken:
+                  type: string
+      tags:
+        - Account
+      responses:
+        200:
+          description: FCM token added successfully
   /programs:
     post:
       summary: Add new program

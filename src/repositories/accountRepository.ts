@@ -2,10 +2,10 @@ import { prisma } from '@config';
 import Exception from '@exceptions/Exception';
 import { generateOTP } from '@utils/otp';
 export default class AccountRepository {
-  static addAccount = async (accounntDto) => {
+  static addAccount = async (accountDto) => {
     const account = await prisma.account.create({
       data: {
-        ...accounntDto,
+        ...accountDto,
         otp: {
           create: {
             code: generateOTP(6),
@@ -18,7 +18,16 @@ export default class AccountRepository {
     });
     return account;
   };
-
+  static addAccountFcmToken = async (accountId, fcmToken) => {
+    return await prisma.account.update({
+      where: {
+        id: accountId,
+      },
+      data: {
+        fcmToken,
+      },
+    });
+  };
   static getAccountByEmail = async (email) => {
     const account = await prisma.account.findUnique({
       where: {
