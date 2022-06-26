@@ -4,6 +4,7 @@ import Exception from '@/exceptions/Exception';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
 import { RequestWithAccount } from '@/interfaces/authInterface';
 import ChatService from '@/services/chatService';
+import NotificationService from '@/services/notificationService';
 import ProgramRequestService from '@/services/programRequestService';
 import { Role } from '@/utils/enums/role.enum';
 import formatResponse from '@/utils/formatResponse';
@@ -15,6 +16,7 @@ export default class ProgramRequestController {
     await validateDto(ProgramRequestDto, programRequestDto);
     programRequestDto.traineeId = req.account.id;
     const createdProgramRequest = await ProgramRequestService.addProgramRequest(programRequestDto);
+    NotificationService.sendNewRequestNotification(createdProgramRequest.coachId);
     await ChatService.addChat(programRequestDto.traineeId, programRequestDto.coachId);
     res.send(formatResponse(createdProgramRequest));
   });
@@ -53,10 +55,12 @@ export default class ProgramRequestController {
     switch (status) {
       case 'accepted':
         programRequest = await ProgramRequestService.acceptProgramRequest(programRequestId);
+        NotificationService.sendRequestAcceptedNotification(programRequest.traineeId);
         res.send(formatResponse(programRequest));
         break;
       case 'rejected':
         programRequest = await ProgramRequestService.rejectProgramRequest(programRequestId);
+        NotificationService.sendRequestRejectedNotification(programRequest.traineeId);
         // TODO: remove Chat between coach and trainee
         res.send(formatResponse(programRequest));
         break;

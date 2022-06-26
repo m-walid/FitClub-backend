@@ -1007,7 +1007,14 @@ paths:
       responses:
         200:
           description: All chats returned
-
+  /notifications:
+    get:
+      summary: Get all notifications for the signed user(trainee or coach)
+      tags:
+        - Notification
+      responses:
+        200:
+          description: All notifications returned
 components:
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme

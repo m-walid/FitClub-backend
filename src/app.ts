@@ -22,6 +22,7 @@ import programRequestRouter from './routes/programRequestRouter';
 import billRouter from './routes/billRouter';
 import chatRouter from './routes/chatRouter';
 import discoveryRouter from './routes/discoveryRouter';
+import notificationRouter from './routes/notificationRouter';
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api/v1/requests', programRequestRouter);
 app.use('/api/v1/bills', billRouter);
 app.use('/api/v1/chats', chatRouter);
 app.use('/api/v1/discovery', discoveryRouter);
+app.use('/api/v1/notifications', notificationRouter);
 
 const swaggerDocument = YAML.load('api-documentation.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

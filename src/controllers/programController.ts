@@ -5,6 +5,7 @@ import UpdateProgramReview from '@/dtos/updateProgramReview';
 import validateDto from '@/dtos/validate';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
 import { RequestWithAccount } from '@/interfaces/authInterface';
+import NotificationService from '@/services/notificationService';
 import ProgramRequestService from '@/services/programRequestService';
 import ProgramReviewService from '@/services/programReviewService';
 import ProgramService from '@/services/programService';
@@ -36,6 +37,8 @@ export default class ProgramController {
     const createdProgram = await ProgramService.addProgram(programDto, coachId, ProgramType.Custom);
     await ProgramRequestService.linkProgramToRequest(createdProgram.id, programRequestId);
     await ProgramRequestService.updateProgramRequestStatus(programRequestId, ProgramRequestStatus.Done);
+    const traineeId = (await ProgramRequestService.getProgramRequestById(programRequestId)).traineeId;
+    NotificationService.sendRequestDoneNotification(traineeId);
     res.send(formatResponse(createdProgram));
   });
 

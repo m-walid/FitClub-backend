@@ -181,6 +181,9 @@ export default class ProgramRepository {
       where: {
         coachId: coachId,
       },
+      include: {
+        createdBy: true,
+      },
       // include: includeBody,
     });
     return programs;

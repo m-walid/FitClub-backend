@@ -3,7 +3,9 @@ import validateDto from '@/dtos/validate';
 import Exception from '@/exceptions/Exception';
 import UnauthorizedException from '@/exceptions/UnauthorizedException';
 import { RequestWithAccount } from '@/interfaces/authInterface';
+import AccountService from '@/services/accountService';
 import BillService from '@/services/billService';
+import NotificationService from '@/services/notificationService';
 import ProgramRequestService from '@/services/programRequestService';
 import ProgramService from '@/services/programService';
 import ProgramRequestStatus from '@/utils/enums/programRequestStatus';
@@ -20,6 +22,12 @@ export default class BillController {
     // TODO: USE TRANSACTION
     const createdBill = await BillService.addBill(billDto);
     await ProgramService.attachProgramToTrainee(billDto.programId, billDto.traineeId);
+    const traineeName = (await AccountService.getAccountById(billDto.traineeId)).firstName;
+    NotificationService.newPurchaseNotification(billDto.coachId, {
+      traineeName,
+      programTitle: program.title,
+      price: billDto.amount,
+    });
     res.send(formatResponse(createdBill));
   });
 

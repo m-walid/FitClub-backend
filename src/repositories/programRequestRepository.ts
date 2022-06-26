@@ -75,6 +75,9 @@ export default class ProgramRequestRepository {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
     if (!programRequests) throw new Exception('Program requests not found');
     return programRequests;
@@ -97,6 +100,9 @@ export default class ProgramRequestRepository {
             imgUrl: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     if (!programRequests) throw new Exception('Program requests not found');
