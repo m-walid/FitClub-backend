@@ -1,18 +1,18 @@
 import NotificationRepository from '@/repositories/notificationRepository';
-import fetch from 'node-fetch';
 import AccountService from './accountService';
 const firebaseApiKey = process.env.FIREBASE_API_KEY;
-import { initializeApp } from 'firebase-admin/app';
-import { credential, messaging } from 'firebase-admin';
+import * as admin from 'firebase-admin';
+import '@firebase/messaging';
 import { logger } from '@/utils/logger';
 
-const app = initializeApp({
-  credential: credential.cert(JSON.parse(firebaseApiKey)),
+const app = admin.initializeApp({
+  credential: admin.credential.cert(JSON.parse(firebaseApiKey)),
 });
 export default class NotificationService {
   static sendNotification = async (notificationBody) => {
     const { fcmToken } = await AccountService.getAccountById(notificationBody.accountId);
-    messaging(app)
+    admin
+      .messaging(app)
       .send({
         notification: {
           title: notificationBody.title,
