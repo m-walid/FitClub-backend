@@ -16,8 +16,9 @@ programRouter
   .get([ProgramController.getProgram])
   .patch([roleAuth(Role.COACH), ProgramController.updateProgram]);
 programRouter.get('/:id/days/:dayId/exercises', [ProgramController.getProgramDayExercises]);
-programRouter.post('/:id/reviews', [auth, roleAuth(Role.TRAINEE), ProgramController.postReview]);
-programRouter.get('/:id/reviews', [auth, ProgramController.getReviews]);
-programRouter.patch('/reviews/:id', [auth, ProgramController.updateReview]);
-programRouter.delete('/reviews/:id', [auth, ProgramController.deleteReview]);
+programRouter.post('/:id/reviews', [roleAuth(Role.TRAINEE), ProgramController.postReview]);
+programRouter.get('/:id/reviews', [ProgramController.getReviews]);
+programRouter.patch('/reviews/:id', [ProgramController.updateReview]);
+programRouter.delete('/reviews/:id', [ProgramController.deleteReview]);
+programRouter.post('/:programId/progress/:dayExerciseId', [ProgramController.toggleExerciseProgressInProgram]);
 export default programRouter;

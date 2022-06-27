@@ -122,4 +122,16 @@ export default class ProgramController {
     const deletedReview = await ProgramReviewService.deleteReview(reviewId);
     res.send(formatResponse(deletedReview));
   });
+
+  static toggleExerciseProgressInProgram = asyncHandler(async (req: RequestWithAccount, res) => {
+    const dayExerciseId = req.params.dayExerciseId;
+    const programId = req.params.programId;
+    const userId = req.account.id;
+    await ProgramService.toggleExerciseProgressInProgram(userId, programId, dayExerciseId);
+    res.send(
+      formatResponse({
+        success: true,
+      }),
+    );
+  });
 }

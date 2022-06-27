@@ -319,4 +319,44 @@ export default class ProgramRepository {
     ]);
     return !!program || !!userProgram;
   };
+
+  static toggleExerciseInProgram = async (userId, programId, dayExerciseId) => {
+    const userProgress = await prisma.userProgress.findUnique({
+      where: {
+        userId_dayExerciseId: {
+          userId,
+          dayExerciseId,
+        },
+      },
+    });
+    if (userProgress) {
+      await prisma.userProgress.delete({
+        where: {
+          id: userProgress.id,
+        },
+      });
+    } else if (await ProgramRepository.hasAccessToProgram(programId, userId)) {
+      await prisma.userProgress.create({
+        data: {
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          dayExercise: {
+            connect: {
+              id: dayExerciseId,
+            },
+          },
+          currentProgram: {
+            connect: {
+              id: programId,
+            },
+          },
+        },
+      });
+    } else {
+      throw new Exception('You do not have access to this program');
+    }
+  };
 }

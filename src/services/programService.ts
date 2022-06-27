@@ -85,4 +85,8 @@ export default class ProgramService {
   static hasAccessToProgram = async (programId: string, userId: string) => {
     return await ProgramRepository.hasAccessToProgram(programId, userId);
   };
+
+  static toggleExerciseProgressInProgram = async (userId, programId, dayExerciseId) => {
+    return await ProgramRepository.toggleExerciseInProgram(userId, programId, dayExerciseId);
+  };
 }

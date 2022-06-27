@@ -435,7 +435,7 @@ paths:
           description: Program deleted successfully
   /programs/{id}/days/{dadId}/exercies:
     get:
-      summary: Get a specific program
+      summary: Get a specific program day exercises
       parameters:
         - in: path
           name: programId
@@ -453,7 +453,7 @@ paths:
         - Program
       responses:
         200:
-          description: exercise of a specific day of a specific program retrieved
+          description: exercises of a specific day of a specific program retrieved
   /programs/{id}/reviews:
     get:
       summary: Get a specific program's reviews
@@ -536,6 +536,27 @@ paths:
       responses:
         200:
           description: Review deleted successfully
+  /programs/{programId}/progress/{dayExerciseId}:
+    post:
+      summary: Toggle progress to specific day exercise in a program
+      parameters:
+        - in: path
+          name: programId
+          required: true
+          description: enter ID of the program
+          schema:
+            type: string
+        - in: path
+          name: dayExerciseId
+          required: true
+          description: enter ID of the day exercise to be toggled
+          schema:
+            type: string
+      tags:
+        - Program
+      responses:
+        200:
+          description: Progress toggled to this specific day exercise
   /coaches:
     post:
       summary: Add new coach
