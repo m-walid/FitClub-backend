@@ -2,7 +2,6 @@ import NotificationRepository from '@/repositories/notificationRepository';
 import AccountService from './accountService';
 const firebaseApiKey = process.env.FIREBASE_API_KEY;
 import * as admin from 'firebase-admin';
-import '@firebase/messaging';
 import { logger } from '@/utils/logger';
 
 const app = admin.initializeApp({
