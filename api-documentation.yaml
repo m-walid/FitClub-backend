@@ -433,7 +433,7 @@ paths:
       responses:
         200:
           description: Program deleted successfully
-  /programs/{id}/days/{dadId}/exercies:
+  /programs/{id}/days/{dayId}/exercises:
     get:
       summary: Get a specific program day exercises
       parameters:

@@ -29,6 +29,11 @@ export default class ProgramRequestRepository {
         id: programRequestId,
       },
       include: {
+        program: {
+          include: {
+            createdBy: true,
+          },
+        },
         trainee: {
           include: {
             traineeProfile: true,
@@ -48,13 +53,8 @@ export default class ProgramRequestRepository {
       include: {
         coach: true,
         program: {
-          select: {
-            id: true,
-            type: true,
-            price: true,
-            title: true,
-            description: true,
-            imgUrl: true,
+          include: {
+            createdBy: true,
           },
         },
       },
@@ -69,6 +69,11 @@ export default class ProgramRequestRepository {
         coachId,
       },
       include: {
+        program: {
+          include: {
+            createdBy: true,
+          },
+        },
         trainee: {
           include: {
             traineeProfile: true,
@@ -91,13 +96,8 @@ export default class ProgramRequestRepository {
       include: {
         coach: true,
         program: {
-          select: {
-            id: true,
-            type: true,
-            price: true,
-            title: true,
-            description: true,
-            imgUrl: true,
+          include: {
+            createdBy: true,
           },
         },
       },
@@ -116,13 +116,8 @@ export default class ProgramRequestRepository {
       },
       include: {
         program: {
-          select: {
-            id: true,
-            type: true,
-            price: true,
-            title: true,
-            description: true,
-            imgUrl: true,
+          include: {
+            createdBy: true,
           },
         },
       },

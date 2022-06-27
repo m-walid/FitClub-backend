@@ -2,29 +2,26 @@ import NotificationRepository from '@/repositories/notificationRepository';
 import fetch from 'node-fetch';
 import AccountService from './accountService';
 const firebaseApiKey = process.env.FIREBASE_API_KEY;
-const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
-const url = `https://fcm.googleapis.com/v1/projects/${firebaseProjectId}/messages:send`;
-const headers = {
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${firebaseApiKey}`,
-};
+import { initializeApp } from 'firebase-admin/app';
+import { credential, messaging } from 'firebase-admin';
+import { logger } from '@/utils/logger';
+
+const app = initializeApp({
+  credential: credential.cert(firebaseApiKey),
+});
 export default class NotificationService {
   static sendNotification = async (notificationBody) => {
     const { fcmToken } = await AccountService.getAccountById(notificationBody.accountId);
-    await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        message: {
-          notification: {
-            title: notificationBody.title,
-            body: notificationBody.body,
-          },
-          token: fcmToken,
+    messaging(app)
+      .send({
+        notification: {
+          title: notificationBody.title,
+          body: notificationBody.body,
         },
-      }),
-    });
-    await NotificationRepository.addNotification(notificationBody);
+        token: fcmToken,
+      })
+      .then(() => NotificationRepository.addNotification(notificationBody).catch((err) => logger.error(err)))
+      .catch((err) => logger.error(err));
   };
   static getNotificationsByAccountId = async (accountId: string) => await NotificationRepository.getNotificationsByAccountId(accountId);
   static sendNewRequestNotification = async (accountId: string) => {
