@@ -7,7 +7,7 @@ import { credential, messaging } from 'firebase-admin';
 import { logger } from '@/utils/logger';
 
 const app = initializeApp({
-  credential: credential.cert(firebaseApiKey),
+  credential: credential.cert(JSON.parse(firebaseApiKey)),
 });
 export default class NotificationService {
   static sendNotification = async (notificationBody) => {
